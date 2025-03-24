@@ -10,7 +10,7 @@ whereis apache2 | grep -q ": ." || (  # Install Apache if not
     a2enmod rewrite
     grep -q "Directory /var/www/html" /etc/apache2/sites-enabled/000-default.conf ||
         sed -i 's#</VirtualHost>#        <Directory /var/www/html>\n                AllowOverride All\n        </Directory>\n</VirtualHost>#' /etc/apache2/sites-enabled/000-default.conf &&
-    systemctl restart apache2
+        systemctl restart apache2
 
 )
 whereis git | grep -q ": ." || apt-get install git -y
@@ -24,8 +24,8 @@ git clone $REPO $WORKDIR/$REPODIR
 cd $WORKDIR/$REPODIR
 cp $WORKDIR/$REPODIR/update_site.sh $WORKDIR
 cp $WORKDIR/$REPODIR/update_cron.sh $WORKDIR
-(npm install
-npm run build)
+npm install
+npm run build
 cd $WORKDIR/$REPODIR/build
 rm -rf $PUBLICDIR/*
 mv * $PUBLICDIR/
