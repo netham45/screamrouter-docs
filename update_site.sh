@@ -29,4 +29,3 @@ npm run build
 cd $WORKDIR/$REPODIR/build
 rm -rf $PUBLICDIR/*
 mv * $PUBLICDIR/
-rm -rf $WORKDIR/$REPODIR
