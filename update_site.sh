@@ -1,11 +1,5 @@
 #!/bin/bash
-echo $0 | grep -q "_running$" || (
-    temp_file="${0}_running"
-    cp $0 $temp_file
-    bash $temp_file
-    rm $temp_file
-    exit 0
-)
+echo $0 | grep -q "^/dev/fd" || ! bash <(cat ${0}) || exit 0
 WORKDIR=/root
 PUBLICDIR=/var/www/html
 REPODIR=screamrouter-docs
@@ -19,20 +13,20 @@ whereis apache2 | grep -q ": ." || (  # Install Apache if not
     systemctl restart apache2
 
 )
+whereis git | grep -q ": ." || apt-get install git -y
 whereis npm | grep -q ": ." || (  # Install node if not
-    wget https://deb.nodesource.com/setup_20.x -o /dev/null -O - | sudo bash -
-    apt install nodejs
+    wget https://deb.nodesource.com/setup_20.x -o /dev/null -O - | bash -
+    apt install nodejs -y
 )
 rm -rf $WORKDIR/$REPODIR
 cd $WORKDIR
-git clone $REPO
+git clone $REPO $WORKDIR/$REPODIR
 cd $WORKDIR/$REPODIR
 cp $WORKDIR/$REPODIR/update_site.sh $WORKDIR
 cp $WORKDIR/$REPODIR/update_cron.sh $WORKDIR
-npm install
-npm run build
-cd build
+(npm install
+npm run build)
+cd $WORKDIR/$REPODIR/build
 rm -rf $PUBLICDIR/*
 mv * $PUBLICDIR/
 rm -rf $WORKDIR/$REPODIR
-
