@@ -6,4 +6,5 @@ cd screamrouter-docs
 npm install
 npm run build
 cd build
+rm -rf /var/www/html/*
 mv * /var/www/html
