@@ -16,7 +16,7 @@ import {
   Image,
   Link
 } from '@chakra-ui/react';
-import { FaDownload, FaBook, FaGithub, FaVolumeUp, FaNetworkWired, FaDesktop, FaMicrochip, FaCheckCircle } from 'react-icons/fa';
+import { FaDownload, FaBook, FaGithub, FaDiscord, FaVolumeUp, FaNetworkWired, FaDesktop, FaMicrochip, FaCheckCircle } from 'react-icons/fa';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Feature = ({ title, text, icon }) => {
@@ -110,6 +110,17 @@ function Home() {
               leftIcon={<FaGithub />}
             >
               View on GitHub
+            </Button>
+            <Button
+              as={'a'}
+              href={'https://discord.gg/EXhF6pBhXT'}
+              target="_blank"
+              variant={'link'}
+              colorScheme={'blue'}
+              size={'sm'}
+              leftIcon={<FaDiscord />}
+            >
+              Join our Discord
             </Button>
           </Stack>
         </Stack>
