@@ -9,7 +9,7 @@ import {
   Flex,
   Divider,
 } from '@chakra-ui/react';
-import { FaGithub } from 'react-icons/fa';
+import { FaGithub, FaDiscord } from 'react-icons/fa';
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -52,6 +52,9 @@ function Footer() {
           <Stack direction={'row'} spacing={6} mt={{ base: 2, md: 0 }}>
             <SocialButton label={'GitHub'} href={'https://github.com/netham45/screamrouter'}>
               <FaGithub />
+            </SocialButton>
+            <SocialButton label={'Discord'} href={'https://discord.gg/EXhF6pBhXT'}>
+              <FaDiscord />
             </SocialButton>
           </Stack>
         </Flex>

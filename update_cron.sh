@@ -18,3 +18,8 @@ if [ "$LOCAL" != "$REMOTE" ]; then
 else
     echo "Repository is up to date. No action needed."
 fi
+
+# Truncate log to 10k lines
+tail /var/log/git-update.log -n 10000 | tee /var/log/git-update.log_
+cat /var/log/git-update.log_ > /var/log/git-update.log
+> /var/log/git-update.log_
