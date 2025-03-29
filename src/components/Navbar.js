@@ -19,11 +19,16 @@ const Links = [
   { name: 'Home', path: '/' },
   { name: 'Documentation', path: '/docs' },
   { name: 'Downloads', path: '/downloads' },
+  { name: 'Discord', path: 'https://discord.gg/EXhF6pBhXT', isExternal: true },
 ];
 
-const NavLink = ({ children, to }) => (
+const NavLink = ({ children, to, isExternal }) => (
   <Link
-    as={RouterLink}
+    as={isExternal ? 'a' : RouterLink}
+    href={isExternal ? to : undefined}
+    to={isExternal ? undefined : to}
+    target={isExternal ? '_blank' : undefined}
+    rel={isExternal ? 'noopener noreferrer' : undefined}
     px={2}
     py={1}
     rounded={'md'}
@@ -31,11 +36,10 @@ const NavLink = ({ children, to }) => (
       textDecoration: 'none',
       bg: useColorModeValue('gray.200', 'gray.700'),
     }}
-    _activeLink={{
+    _activeLink={!isExternal ? {
       color: 'brand.500',
       fontWeight: 'semibold'
-    }}
-    to={to}
+    } : undefined}
   >
     {children}
   </Link>
@@ -75,7 +79,7 @@ function Navbar() {
             display={{ base: 'none', md: 'flex' }}
           >
             {Links.map((link) => (
-              <NavLink key={link.name} to={link.path}>
+              <NavLink key={link.name} to={link.path} isExternal={link.isExternal}>
                 {link.name}
               </NavLink>
             ))}
@@ -100,7 +104,7 @@ function Navbar() {
         <Box pb={4} display={{ md: 'none' }}>
           <Stack as={'nav'} spacing={4}>
             {Links.map((link) => (
-              <NavLink key={link.name} to={link.path}>
+              <NavLink key={link.name} to={link.path} isExternal={link.isExternal}>
                 {link.name}
               </NavLink>
             ))}

@@ -76,6 +76,23 @@ function WindowsAppDoc() {
             <Text fontWeight="semibold">Auto-start Option</Text>
             <Text>Configure to start automatically when Windows boots</Text>
           </ListItem>
+
+          <ListItem>
+            <Text fontWeight="semibold">Integrated Audio Streaming</Text>
+            <UnorderedList ml={5} spacing={2}>
+              <ListItem>ScreamSender for transmitting audio with configurable destination IP/port and multicast support</ListItem>
+              <ListItem>ScreamReceiver for receiving audio streams on configurable ports</ListItem>
+            </UnorderedList>
+          </ListItem>
+
+          <ListItem>
+            <Text fontWeight="semibold">Secure Automatic Updates</Text>
+            <UnorderedList ml={5} spacing={2}>
+              <ListItem>Choose between manual, notify-only, or automatic updates</ListItem>
+              <ListItem>Secure update verification with MSI signature checking</ListItem>
+              <ListItem>Silent installation with automatic restart</ListItem>
+            </UnorderedList>
+          </ListItem>
         </UnorderedList>
       </DocSection>
       
@@ -146,6 +163,36 @@ function WindowsAppDoc() {
         </UnorderedList>
       </DocSection>
       
+      <DocSection title="Audio Streaming">
+        <Text mb={4}>
+          The Windows Desktop app includes built-in ScreamSender and ScreamReceiver functionality:
+        </Text>
+
+        <Heading as="h3" size="md" mb={2}>
+          ScreamSender
+        </Heading>
+        <UnorderedList spacing={2} mb={4}>
+          <ListItem>Enable/disable audio transmission through the settings menu</ListItem>
+          <ListItem>Configure destination IP address and port for audio streaming</ListItem>
+          <ListItem>Optional multicast support for broadcasting to multiple receivers</ListItem>
+          <ListItem>Runs as a background process when enabled</ListItem>
+        </UnorderedList>
+
+        <Heading as="h3" size="md" mb={2}>
+          ScreamReceiver
+        </Heading>
+        <UnorderedList spacing={2} mb={4}>
+          <ListItem>Enable/disable audio reception through the settings menu</ListItem>
+          <ListItem>Configure inbound port for receiving streams</ListItem>
+          <ListItem>Automatically manages the receiver process</ListItem>
+        </UnorderedList>
+
+        <Alert status="info" mb={4}>
+          <AlertIcon />
+          Audio streaming settings are saved and will persist between application restarts.
+        </Alert>
+      </DocSection>
+
       <DocSection title="Configuration">
         <Text mb={4}>
           Configure the app through the Settings option in the tray menu:
@@ -172,6 +219,23 @@ function WindowsAppDoc() {
           
           <ListItem>
             <Text><strong>Interface transparency:</strong> Adjust the transparency level of the app window</Text>
+          </ListItem>
+
+          <ListItem>
+            <Text><strong>Audio Settings:</strong></Text>
+            <UnorderedList ml={5} spacing={2}>
+              <ListItem><strong>ScreamSender:</strong> Configure destination IP (default: 127.0.0.1), port (default: 16401), and multicast mode</ListItem>
+              <ListItem><strong>ScreamReceiver:</strong> Set listening port (default: 4010)</ListItem>
+            </UnorderedList>
+          </ListItem>
+
+          <ListItem>
+            <Text><strong>Update Settings:</strong></Text>
+            <UnorderedList ml={5} spacing={2}>
+              <ListItem>Do not check for updates</ListItem>
+              <ListItem>Notify when updates are available</ListItem>
+              <ListItem>Automatically download and install updates</ListItem>
+            </UnorderedList>
           </ListItem>
         </UnorderedList>
         

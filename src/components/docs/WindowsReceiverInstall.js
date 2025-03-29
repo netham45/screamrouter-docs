@@ -34,54 +34,41 @@ function WindowsReceiverInstall() {
       </Heading>
       
       <Text fontSize="lg" mb={8}>
-        The Windows Scream Receiver allows you to play audio from ScreamRouter on any Windows PC.
-        This receiver will play back the audio stream through your Windows audio system.
+        ScreamReceiver functionality is now integrated into the ScreamRouter Windows Desktop app. This provides a convenient
+        way to receive audio streams on your Windows PC with a user-friendly interface and configuration options.
       </Text>
       
       <DocSection title="Windows Receiver Installation" icon={FaHeadphones}>
         <Alert status="info" borderRadius="md" mb={6}>
           <AlertIcon />
           <Box>
-            <Text fontWeight="semibold">What is the Windows Scream Receiver?</Text>
+            <Text fontWeight="semibold">Integrated with Windows Desktop App</Text>
             <Text>
-              The Windows Scream Receiver is a lightweight application that receives Scream audio streams and plays them
-              through Windows audio devices. It can receive streams directly from ScreamRouter or other Scream-compatible
-              senders.
+              ScreamReceiver is now built into the ScreamRouter Windows Desktop app, providing a seamless audio streaming
+              experience with an easy-to-use interface. The standalone receiver is no longer required.
             </Text>
           </Box>
         </Alert>
-        
-        <Heading as="h3" size="md" mb={3}>Installation</Heading>
-        <Text mb={3}>
-          The Windows Scream Receiver can be installed as a system service for automatic startup:
+
+        <Text mb={4}>
+          To use ScreamReceiver functionality:
         </Text>
-        
+
         <List as="ol" styleType="decimal" spacing={2} ml={5} mb={4}>
-          <ListItem>Download the latest release from <Link color="brand.500" href="https://github.com/netham45/windows-scream-receiver" isExternal>Windows Scream Receiver</Link></ListItem>
-          <ListItem>Extract the ZIP file to a folder of your choice</ListItem>
-          <ListItem>Run <Code>install_task.bat</Code> with administrator privileges</ListItem>
-          <ListItem>When prompted, enter the port to listen on (default is 4010)
-            <Text fontSize="sm" fontStyle="italic" mt={1}>
-              This will be the active port for multicast streams on group 239.255.77.77 and unicast streams
-              on local interfaces on the selected port
-            </Text>
+          <ListItem>Install the ScreamRouter Windows Desktop app from the Downloads page</ListItem>
+          <ListItem>Open the app's settings from the system tray icon</ListItem>
+          <ListItem>Configure the ScreamReceiver settings:
+            <List ml={4} mt={1} spacing={1} styleType="circle">
+              <ListItem><Text fontWeight="medium">Enable audio reception</Text></ListItem>
+              <ListItem><Text fontWeight="medium">Set listening port (default: 4010)</Text></ListItem>
+            </List>
           </ListItem>
         </List>
-        
-        <Alert status="warning" borderRadius="md" mb={6}>
+
+        <Alert status="info" mb={6}>
           <AlertIcon />
-          The installation scripts require administrative privileges in order for the app to set its
-          priority level to Realtime for optimal audio performance.
+          For detailed instructions on using the integrated ScreamReceiver, please refer to the <Link as={RouterLink} to="/docs/windows-app" color="brand.500">Windows Desktop App documentation</Link>.
         </Alert>
-        
-        <Heading as="h3" size="md" mb={3}>Manual Execution</Heading>
-        <Text mb={3}>
-          If you prefer to run the receiver manually rather than as a service:
-        </Text>
-        
-        <Code p={3} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`ScreamReceiver.exe [Port=4010]`}
-        </Code>
         
         <Heading as="h3" size="md" mb={3}>Integration with ScreamRouter</Heading>
         <Text mb={3}>

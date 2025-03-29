@@ -31,12 +31,18 @@ function WindowsAppInstall() {
         ScreamRouter Windows Desktop App
       </Heading>
       
+      <Text fontSize="lg" mb={4}>
+        Transform your Windows PC into a powerful audio streaming hub with ScreamRouter Windows Desktop. This elegant
+        all-in-one solution brings together everything you need for seamless audio control and streaming.
+      </Text>
+
       <Text fontSize="lg" mb={8}>
-        ScreamRouter Windows Desktop is a C# application that provides a desktop interface for controlling ScreamRouter.
-        It runs in the system tray and provides quick access to control your audio routing.
+        Whether you're setting up a whole-home audio system, streaming music to multiple rooms, or just want an
+        easier way to manage your audio routing, ScreamRouter Windows Desktop delivers a polished experience with
+        professional-grade features in a user-friendly package.
       </Text>
       
-      <DocSection title="Windows Installation" icon={FaWindows}>
+      <DocSection title="The Ultimate Audio Control Center" icon={FaWindows}>
         <Box mb={8}>
           <Image 
             src="/images/screamrouter/windows-desktop-screenshot.png" 
@@ -46,16 +52,36 @@ function WindowsAppInstall() {
             mb={4}
           />
           <Text align="center" fontStyle="italic" mb={8}>
-            ScreamRouter Windows Desktop gives you convenient access to the ScreamRouter interface and media controls
+            Experience seamless audio control with our sleek, modern interface
           </Text>
         </Box>
+
+        <Heading as="h3" size="md" mb={3}>Why Choose ScreamRouter Windows Desktop?</Heading>
+        <List spacing={3} styleType="none" ml={0} mb={6}>
+          <ListItem>
+            <Text fontWeight="semibold" fontSize="lg">🎵 Complete Audio Control</Text>
+            <Text>Stream audio anywhere in your home, control playback with media keys, and manage everything from one elegant interface.</Text>
+          </ListItem>
+          <ListItem>
+            <Text fontWeight="semibold" fontSize="lg">🔄 Built-in Audio Streaming</Text>
+            <Text>Send and receive high-quality audio streams without additional software. Perfect for multi-room audio setups.</Text>
+          </ListItem>
+          <ListItem>
+            <Text fontWeight="semibold" fontSize="lg">⚡ Always Ready</Text>
+            <Text>Quick access from the system tray, automatic updates, and seamless integration with Windows make it effortless to use.</Text>
+          </ListItem>
+        </List>
         
-        <Heading as="h3" size="md" mb={3}>Prerequisites</Heading>
-        <List spacing={2} styleType="disc" ml={5} mb={4}>
-          <ListItem>Windows 10 or later</ListItem>
-          <ListItem>.NET 8.0 or later</ListItem>
-          <ListItem>Microsoft Edge WebView2 Runtime</ListItem>
-          <ListItem>A running ScreamRouter instance (on the same machine or network)</ListItem>
+        <Heading as="h3" size="md" mb={3}>Ready to Get Started?</Heading>
+        <Text mb={4}>
+          Setting up ScreamRouter Windows Desktop is quick and easy. Here's what you'll need:
+        </Text>
+        
+        <List spacing={2} styleType="disc" ml={5} mb={6}>
+          <ListItem><Text as="span" fontWeight="semibold">Windows 10 or later</Text> - Experience the full power of modern Windows</ListItem>
+          <ListItem><Text as="span" fontWeight="semibold">.NET 8.0 or later</Text> - For optimal performance and security</ListItem>
+          <ListItem><Text as="span" fontWeight="semibold">Microsoft Edge WebView2 Runtime</Text> - Automatically installed if needed</ListItem>
+          <ListItem><Text as="span" fontWeight="semibold">ScreamRouter server</Text> - Your audio routing command center</ListItem>
         </List>
         
         <Heading as="h3" size="md" mb={3}>Installation Steps</Heading>
@@ -66,23 +92,68 @@ function WindowsAppInstall() {
           <ListItem>On first launch, you'll need to configure the URL of your ScreamRouter server</ListItem>
         </List>
         
-        <Heading as="h3" size="md" mb={3}>Features</Heading>
-        <List spacing={2} styleType="disc" ml={5} mb={4}>
-          <ListItem><Text fontWeight="semibold">Notification Area Icon</Text> - Access ScreamRouter from the system tray with a context menu for quick controls</ListItem>
-          <ListItem><Text fontWeight="semibold">Global Media Key Support</Text> - Control playback using your keyboard's media keys</ListItem>
-          <ListItem><Text fontWeight="semibold">Start Menu Integration</Text> - Pin to Start for easy access</ListItem>
-          <ListItem><Text fontWeight="semibold">Visual Design</Text> - Modern transparent background with blur effect</ListItem>
+        <Heading as="h3" size="md" mb={3}>Professional-Grade Features</Heading>
+        <List spacing={3} styleType="none" ml={0} mb={6}>
+          <ListItem>
+            <Text fontWeight="semibold" fontSize="lg">🎮 Intuitive Controls</Text>
+            <List ml={5} spacing={2}>
+              <ListItem>System tray integration for instant access</ListItem>
+              <ListItem>Global media key support for seamless playback control</ListItem>
+              <ListItem>Modern, transparent interface with blur effects</ListItem>
+            </List>
+          </ListItem>
+          
+          <ListItem>
+            <Text fontWeight="semibold" fontSize="lg">🔊 Advanced Audio Streaming</Text>
+            <List ml={5} spacing={2}>
+              <ListItem>Built-in ScreamSender for high-quality audio transmission</ListItem>
+              <ListItem>Integrated ScreamReceiver for flexible audio reception</ListItem>
+              <ListItem>Multicast support for whole-home audio distribution</ListItem>
+            </List>
+          </ListItem>
+          
         </List>
         
-        <Heading as="h3" size="md" mb={3}>Configuration</Heading>
-        <Text>
-          After installation, you need to configure the app to connect to your ScreamRouter instance:
+        <Heading as="h3" size="md" mb={3}>Quick Setup Guide</Heading>
+        <Text mb={4}>
+          Get up and running in minutes with our streamlined setup process:
         </Text>
-        <List as="ol" styleType="decimal" spacing={2} ml={5} mt={2}>
+        
+        <Heading as="h4" size="sm" mb={2}>Basic Setup</Heading>
+        <List as="ol" styleType="decimal" spacing={2} ml={5} mb={4}>
           <ListItem>Right-click the ScreamRouter icon in the system tray</ListItem>
           <ListItem>Select "Settings" from the context menu</ListItem>
           <ListItem>Enter the URL to your ScreamRouter server (e.g., "https://192.168.1.100")</ListItem>
           <ListItem>Click "Save" to apply the settings</ListItem>
+        </List>
+
+        <Heading as="h4" size="sm" mb={2}>Audio Streaming Setup</Heading>
+        <List spacing={2} styleType="disc" ml={5} mb={4}>
+          <ListItem><Text fontWeight="semibold">ScreamSender Configuration:</Text>
+            <List ml={5} spacing={1}>
+              <ListItem>Enable audio transmission</ListItem>
+              <ListItem>Set destination IP</ListItem>
+              <ListItem>Configure port</ListItem>
+              <ListItem>Toggle multicast mode if needed</ListItem>
+            </List>
+          </ListItem>
+          <ListItem><Text fontWeight="semibold">ScreamReceiver Configuration:</Text>
+            <List ml={5} spacing={1}>
+              <ListItem>Enable audio reception</ListItem>
+              <ListItem>Set listening port</ListItem>
+            </List>
+          </ListItem>
+        </List>
+
+        <Heading as="h4" size="sm" mb={2}>Update Settings</Heading>
+        <List spacing={2} styleType="disc" ml={5} mb={4}>
+          <ListItem>Choose your preferred update mode:
+            <List ml={5} spacing={1}>
+              <ListItem>Do not check for updates</ListItem>
+              <ListItem>Notify when updates are available</ListItem>
+              <ListItem>Automatically download and install updates</ListItem>
+            </List>
+          </ListItem>
         </List>
       </DocSection>
     </Box>
