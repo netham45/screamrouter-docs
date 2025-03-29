@@ -13,13 +13,13 @@ import {
   Image
 } from '@chakra-ui/react';
 import { NavLink as RouterLink } from 'react-router-dom';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaGithub, FaDiscord, FaBook, FaDownload } from 'react-icons/fa';
 
 const Links = [
-  { name: 'Home', path: '/' },
-  { name: 'Documentation', path: '/docs' },
-  { name: 'Downloads', path: '/downloads' },
-  { name: 'Discord', path: 'https://discord.gg/EXhF6pBhXT', isExternal: true },
+  { name: <Flex alignItems="center"><FaBook /><Box ml={1}>Documentation</Box></Flex>, path: '/docs' },
+  { name: <Flex alignItems="center"><FaDownload /><Box ml={1}>Downloads</Box></Flex>, path: '/downloads' },
+  { name: <Flex alignItems="center"><FaDiscord /><Box ml={1}>Discord</Box></Flex>, path: 'https://discord.gg/EXhF6pBhXT', isExternal: true },
+  { name: <Flex alignItems="center"><FaGithub /><Box ml={1}>GitHub</Box></Flex>, path: 'https://github.com/netham45/screamrouter', isExternal: true },
 ];
 
 const NavLink = ({ children, to, isExternal }) => (
@@ -86,17 +86,6 @@ function Navbar() {
           </HStack>
         </HStack>
         <Flex alignItems={'center'}>
-          <Button
-            variant={'solid'}
-            colorScheme={'brand'}
-            size={'sm'}
-            mr={4}
-            as={'a'}
-            href={'https://github.com/netham45/screamrouter'}
-            target="_blank"
-          >
-            GitHub
-          </Button>
         </Flex>
       </Flex>
 
