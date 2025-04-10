@@ -113,6 +113,38 @@ function WindowsAppInstall() {
           </ListItem>
           
         </List>
+
+        <Heading as="h3" size="md" mb={3}>Per-Application Audio Control (Processes)</Heading>
+        <Text mb={4}>
+          Unlock fine-grained control over audio from individual applications on your Windows PC. The Processes feature lets ScreamRouter see and manage audio streams from specific apps like games, music players, or browsers separately.
+        </Text>
+
+        <Heading as="h4" size="sm" mb={2}>Why Use Processes?</Heading>
+        <List spacing={2} styleType="disc" ml={5} mb={4}>
+          <ListItem>
+            <Text><Text as="span" fontWeight="semibold">Fine-Grained Volume Control:</Text> Adjust volume for each app independently.</Text>
+          </ListItem>
+          <ListItem>
+            <Text><Text as="span" fontWeight="semibold">Separate Audio Settings:</Text> Apply unique EQ or delay settings per application.</Text>
+          </ListItem>
+          <ListItem>
+            <Text><Text as="span" fontWeight="semibold">Troubleshooting:</Text> Easily mute or adjust apps to isolate audio issues.</Text>
+          </ListItem>
+          <ListItem>
+            <Text><Text as="span" fontWeight="semibold">See What's Playing:</Text> Identify which applications are currently making sound.</Text>
+          </ListItem>
+          <ListItem>
+            <Text><Text as="span" fontWeight="semibold">Stable Routing:</Text> Preserve app-specific settings even when the app isn't running.</Text>
+          </ListItem>
+        </List>
+
+        <Heading as="h4" size="sm" mb={2}>How It Works</Heading>
+        <Text mb={2}>
+          When enabled, the ScreamRouter Windows app detects applications making sound and sends their audio streams individually to the ScreamRouter server. These appear as controllable "processes" under the main Windows source.
+        </Text>
+        <Text mb={4}>
+          You can find and manage these processes within the ScreamRouter interface (often via a "View Processes" option on the Windows source). Each process allows for independent mute, volume, EQ, and delay adjustments, similar to regular sources. Processes persist in ScreamRouter even after the application closes, retaining your settings for the next time it runs.
+        </Text>
         
         <Heading as="h3" size="md" mb={3}>Quick Setup Guide</Heading>
         <Text mb={4}>
