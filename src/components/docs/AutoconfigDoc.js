@@ -60,39 +60,47 @@ function AutoconfigDoc() {
 
       <Divider my={6} />
 
-      <DocSection title="Sink Configuration via TXT Records">
+      <DocSection title="Sink Configuration Discovery via TXT Records">
         <Text mb={2}>
-          ScreamRouter advertises configuration settings for specific sinks via mDNS TXT records associated with <Code>sink.settings.screamrouter.local</Code>. Sinks can query this record (either broadly via multicast or directly at the ScreamRouter's IP) to retrieve their settings, such as bit depth, sample rate, channel layout, and their unique <Code>config_id</Code>.
+          Sinks (receivers) advertise their current configuration and capabilities via mDNS TXT records. ScreamRouter queries the <Code>sink.settings.screamrouter.local</Code> hostname (either via multicast or directly at a sink's IP if known) to discover these settings. The TXT record typically includes details like bit depth, sample rate, channel layout, the sink's IP address, and its unique <Code>config_id</Code>.
         </Text>
+        <Text mb={2}>Example query performed by ScreamRouter:</Text>
         <Code display="block" whiteSpace="pre" p={3} mb={4}>
-          $ dig +short TXT sink.settings.screamrouter.local @224.0.0.251 -p 5353
+          # Querying a specific sink's settings TXT record
+          $ dig +short TXT sink-hostname.local @sink-ip -p 5353 
+          # Or querying all settings records via multicast
+          $ dig +short TXT sink.settings.screamrouter.local @224.0.0.251 -p 5353 
           <br />
-          "bit_depth=32;sample_rate=48000;channels=8;channel_layout=7.1;id=d6da54f4-78ac-444d-885a-51183edc09d5;ip=192.168.3.164"
+          "bit_depth=32;sample_rate=48000;channels=8;channel_layout=7.1;id=d6da54f4-78ac-444d-885a-51183edc09d5;ip=192.168.3.164" 
         </Code>
         <Text>
-          Sinks use the returned <Code>config_id</Code> to identify which configuration applies to them, allowing them to update settings even if their IP changes.
+          ScreamRouter uses the <Code>config_id</Code> from the TXT record to uniquely identify the sink, allowing it to manage and potentially update the sink's configuration later, even if the sink's IP address changes.
         </Text>
       </DocSection>
 
       <Divider my={6} />
 
-      <DocSection title="Source Configuration via TXT Records">
+      <DocSection title="Source Configuration Discovery via TXT Records">
         <Text mb={2}>
-          Sources can retrieve their configuration, including IP address mapping, tag, VNC settings, and their <Code>config_id</Code>, by querying the TXT record for <Code>source.settings.screamrouter.local</Code>.
+          Similarly, sources (senders) advertise their configuration via TXT records. ScreamRouter queries <Code>source.settings.screamrouter.local</Code> to discover source details like IP address, type, version, and the source's unique <Code>config_id</Code>. This allows ScreamRouter to identify and manage sources.
         </Text>
-        <Code display="block" whiteSpace="pre" p={3} mb={4}>
+         <Text mb={2}>Example query performed by ScreamRouter:</Text>
+       <Code display="block" whiteSpace="pre" p={3} mb={4}>
+          # Querying a specific source's settings TXT record
+          $ dig +short TXT source-hostname.local @source-ip -p 5353
+          # Or querying all settings records via multicast
           $ dig +short TXT source.settings.screamrouter.local @224.0.0.251 -p 5353
           <br />
-          "id=d6da54f4-78ac-444d-885a-51183edc09d5;ip=192.168.3.164;type=source;version=1.0"
+          "id=d6da54f4-78ac-444d-885a-51183edc09d5;ip=192.168.3.164;type=source;version=1.0" 
         </Code>
         <Text>
-          Sources use their <Code>config_id</Code> to find the relevant configuration entry.
+          ScreamRouter uses the <Code>config_id</Code> to track the source and can use this information to configure routing or other settings related to this source.
         </Text>
       </DocSection>
       
       <Divider my={6} />
 
-      <DocSection title="Desktop Client Autoconfig Example">
+      <DocSection title="Desktop Client Autodiscovery Example">
         <Text mb={2}>The Windows Desktop client uses this mechanism:</Text>
         <VStack align="start" spacing={1} mb={4}>
           <Text>1. Starts up without a pre-defined configuration.</Text>
