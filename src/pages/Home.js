@@ -16,7 +16,7 @@ import {
   Image,
   Link
 } from '@chakra-ui/react';
-import { FaDownload, FaBook, FaGithub, FaDiscord, FaVolumeUp, FaNetworkWired, FaDesktop, FaMicrochip, FaCheckCircle } from 'react-icons/fa';
+import { FaDownload, FaBook, FaGithub, FaDiscord, FaVolumeUp, FaNetworkWired, FaDesktop, FaMicrochip, FaCheckCircle, FaAndroid } from 'react-icons/fa'; // Import FaAndroid
 import { Link as RouterLink } from 'react-router-dom';
 
 const Feature = ({ title, text, icon }) => {
@@ -207,7 +207,8 @@ function Home() {
           <Heading as="h2" size="xl" mb={6} textAlign="center">
             Supported Platforms
           </Heading>
-          <SimpleGrid columns={{ base: 2, md: 5 }} spacing={10} textAlign="center">
+          {/* Adjust grid columns for better layout */}
+          <SimpleGrid columns={{ base: 2, md: 3 }} spacing={10} textAlign="center" justifyItems="center"> 
             <Box>
               <Icon as={FaDesktop} w={12} h={12} color="brand.500" mb={2} />
               <Text fontWeight="bold">Windows</Text>
@@ -234,6 +235,12 @@ function Home() {
               <Icon as={FaNetworkWired} w={12} h={12} color="brand.500" mb={2} />
               <Text fontWeight="bold">Docker</Text>
               <Text fontSize="sm">Runs on Linux or Windows with Docker Desktop</Text>
+            </Box>
+            {/* Add Android Platform Box */}
+            <Box>
+              <Icon as={FaAndroid} w={12} h={12} color="brand.500" mb={2} />
+              <Text fontWeight="bold">Android</Text>
+              <Text fontSize="sm">Receiver App</Text>
             </Box>
           </SimpleGrid>
         </Box>
