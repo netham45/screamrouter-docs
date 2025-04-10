@@ -33,6 +33,7 @@ import VNCDoc from '../components/docs/VNCDoc';
 import PluginsDoc from '../components/docs/PluginsDoc';
 import TechnicalDoc from '../components/docs/TechnicalDoc';
 import MP3StreamDoc from '../components/docs/MP3StreamDoc';
+import AutoconfigDoc from '../components/docs/AutoconfigDoc'; // Import the new component
 // New documentation components
 import ScreamSourceDoc from '../components/docs/ScreamSourceDoc';
 import RTPSourceDoc from '../components/docs/RTPSourceDoc';
@@ -85,6 +86,8 @@ function DocRouteContent() {
       return <PluginsDoc />;
     case 'processor':
       return <TechnicalDoc />;
+    case 'autoconfig': // Add route for autoconfig
+      return <AutoconfigDoc />;
     // New document routes
     case 'scream-source':
       return <ScreamSourceDoc />;
@@ -206,7 +209,8 @@ function Documentation() {
               ]},
               { title: 'Advanced Topics', children: [
                 { title: 'Plugins', path: 'plugins' },
-                { title: 'Technical Details', path: 'processor' }
+                { title: 'Technical Details', path: 'processor' },
+                { title: 'Autoconfiguration (mDNS)', path: 'autoconfig' } // Add link to sidebar
               ]}
             ]} />
           </Box>
