@@ -175,6 +175,7 @@ function WindowsAppDoc() {
           <ListItem>Enable/disable audio transmission through the settings menu</ListItem>
           <ListItem>Configure destination IP address and port for audio streaming</ListItem>
           <ListItem>Optional multicast support for broadcasting to multiple receivers</ListItem>
+          <ListItem><strong>Per-Process Audio Streams:</strong> Transmit audio from individual applications as separate tagged streams, allowing ScreamRouter to manage them independently.</ListItem>
           <ListItem>Runs as a background process when enabled</ListItem>
         </UnorderedList>
 
