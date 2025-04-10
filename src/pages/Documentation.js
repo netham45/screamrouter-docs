@@ -41,6 +41,7 @@ import WindowsAppDoc from '../components/docs/WindowsAppDoc';
 import ESP32Doc from '../components/docs/ESP32Doc';
 import DockerDoc from '../components/docs/DockerDoc';
 import LinuxReceiverDoc from '../components/docs/LinuxReceiverDoc';
+import AndroidReceiverDoc from '../components/docs/AndroidReceiverDoc'; // Import the new component
 
 // Function to render appropriate content based on path
 function DocRouteContent() {
@@ -101,6 +102,8 @@ function DocRouteContent() {
       return <LinuxReceiverDoc />;
     case 'raspberry-pi':
       return <LinuxReceiverDoc />;
+    case 'android-receiver': // Add route for Android receiver
+      return <AndroidReceiverDoc />;
     default:
       return <DocsOverview />;
   }
@@ -194,7 +197,8 @@ function Documentation() {
                 { title: 'Windows App', path: 'windows-app' },
                 { title: 'Linux/Raspberry Pi', path: 'linux-receiver' },
                 { title: 'Docker', path: 'docker' },
-                { title: 'ESP32', path: 'esp32' }
+                { title: 'ESP32', path: 'esp32' },
+                { title: 'Android', path: 'android-receiver' } // Add link to sidebar
               ]},
               { title: 'Integration', children: [
                 { title: 'Home Assistant', path: 'homeassistant' },

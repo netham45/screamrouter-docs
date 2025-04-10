@@ -30,7 +30,8 @@ import {
   FaMicrochip,
   FaChrome,
   FaHome,
-  FaBook
+  FaBook,
+  FaAndroid // Import Android icon
 } from 'react-icons/fa';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -180,6 +181,16 @@ function Downloads() {
       githubLink: 'https://github.com/duncanthrax/scream',
       docLink: '/docs/install-linux-receiver',
       stable: true
+    },
+    { // Add Android Receiver details
+      title: 'Android Receiver',
+      icon: FaAndroid,
+      description: 'Android application that acts as a Scream receiver, playing audio streamed from ScreamRouter.',
+      version: 'Latest', // Assuming latest, adjust if specific version known
+      link: 'https://github.com/netham45/android-scream-receiver/releases/latest',
+      githubLink: 'https://github.com/netham45/android-scream-receiver',
+      docLink: '/docs/android-receiver',
+      stable: false // Assuming beta/new, adjust as needed
     }
   ];
   
