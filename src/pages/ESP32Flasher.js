@@ -26,6 +26,7 @@ import {
 } from '@chakra-ui/react';
 import { FaChevronDown, FaChevronUp, FaGithub, FaInfoCircle, FaExclamationTriangle } from 'react-icons/fa';
 import { InstallButton } from 'esp-web-tools/dist/web/install-button';
+import JSZip from 'jszip';
 
 // Register custom element for ESPInstallButton
 // This needs to be done outside the component to avoid multiple registrations
@@ -56,9 +57,10 @@ const ESP32Flasher = () => {
       name: 'ESP32-S3 Unified (USB/SPDIF)',
       manifestUrl: '/esp32s3-metadata.json',
       paths: {
-        'bootloader.bin': 'firmware-esp32s3_unified/bootloader/bootloader.bin',
-        'partition-table.bin': 'firmware-esp32s3_unified/partition_table/partition-table.bin',
-        'firmware.bin': 'firmware-esp32s3_unified/usb_audio_player.bin'
+        'bootloader.bin': 'build/bootloader/bootloader.bin',
+        'partition-table.bin': 'build/partition_table/partition-table.bin',
+        'ota_data_initial.bin': 'build/ota_data_initial.bin',
+        'esp32-rtp.bin': 'build/esp32-rtp.bin'
       }
     }
   };
@@ -111,6 +113,7 @@ const ESP32Flasher = () => {
     const statusElement = document.getElementById(`${variantId}-status`);
     const downloadBtn = document.getElementById(`${variantId}-download`);
     const installBtn = document.getElementById(`${variantId}-button-container`);
+    const installButton = document.getElementById(`${variantId}-button`);
     
     if (statusElement) statusElement.textContent = 'Downloading firmware...';
     if (downloadBtn) downloadBtn.disabled = true;
@@ -128,12 +131,74 @@ const ESP32Flasher = () => {
         throw new Error('Firmware asset not found in release');
       }
       
-      // In a real implementation, this would download and process the ZIP file
-      // For now, we'll prepare the download URL
-      const downloadUrl = asset.browser_download_url;
+      // Download the ZIP file through the proxy
+      const proxyUrl = 'https://netham45.org/esp32-scream-receiver/proxy.php?url=' +
+        encodeURIComponent(asset.browser_download_url);
       
-      // Simulate download delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      if (statusElement) statusElement.textContent = 'Downloading ZIP archive...';
+      
+      const response = await fetch(proxyUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to download firmware: ${response.status} ${response.statusText}`);
+      }
+      
+      const zipData = await response.arrayBuffer();
+      
+      if (statusElement) statusElement.textContent = 'Extracting firmware files...';
+      
+      // Extract the ZIP file
+      const zip = new JSZip();
+      const zipContent = await zip.loadAsync(zipData);
+      
+      // Extract the required files
+      const files = {
+        'bootloader.bin': await zipContent.file('build/bootloader/bootloader.bin')?.async('blob'),
+        'partition-table.bin': await zipContent.file('build/partition_table/partition-table.bin')?.async('blob'),
+        'ota_data_initial.bin': await zipContent.file('build/ota_data_initial.bin')?.async('blob'),
+        'esp32-rtp.bin': await zipContent.file('build/esp32-rtp.bin')?.async('blob')
+      };
+      
+      // Check if all files were extracted successfully
+      for (const [name, blob] of Object.entries(files)) {
+        if (!blob) {
+          throw new Error(`Failed to extract ${name} from ZIP archive`);
+        }
+      }
+      
+      // Create object URLs for the extracted files
+      const fileUrls = {};
+      for (const [name, blob] of Object.entries(files)) {
+        fileUrls[name] = URL.createObjectURL(blob);
+      }
+      
+      // Create a custom manifest with the blob URLs
+      const customManifest = {
+        name: "ESP32-S3 RTP Audio Device",
+        version: "1.0",
+        builds: [
+          {
+            chipFamily: "ESP32-S3",
+            parts: [
+              { path: fileUrls['bootloader.bin'], offset: 0 },
+              { path: fileUrls['partition-table.bin'], offset: 32768 },
+              { path: fileUrls['ota_data_initial.bin'], offset: 36864 },
+              { path: fileUrls['esp32-rtp.bin'], offset: 65536 }
+            ],
+            flashMode: "dio",
+            flashFreq: "80m",
+            flashSize: "4MB"
+          }
+        ]
+      };
+      
+      // Create a blob URL for the manifest
+      const manifestBlob = new Blob([JSON.stringify(customManifest)], { type: 'application/json' });
+      const manifestUrl = URL.createObjectURL(manifestBlob);
+      
+      // Update the install button with the custom manifest
+      if (installButton) {
+        installButton.setAttribute('manifest', manifestUrl);
+      }
       
       if (statusElement) statusElement.textContent = 'Ready to flash!';
       if (downloadBtn) downloadBtn.style.display = 'none';
@@ -141,7 +206,7 @@ const ESP32Flasher = () => {
       
       toast({
         title: 'Firmware ready',
-        description: 'Ready to flash to your device',
+        description: 'Firmware extracted and ready to flash to your device',
         status: 'success',
         duration: 5000,
         isClosable: true,
