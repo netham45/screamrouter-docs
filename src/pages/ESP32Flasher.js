@@ -50,33 +50,15 @@ const ESP32Flasher = () => {
   const tipBg = useColorModeValue('purple.50', 'purple.900');
   const tipBorderColor = useColorModeValue('purple.200', 'purple.700');
 
-  // Define variants
+  // Define variant - now only one unified ESP32-S3 binary
   const variants = {
-    'esp32-spdif': { 
-      name: 'ESP32 SPDIF',
-      manifestUrl: '/esp32-metadata.json',
-      paths: {
-        'bootloader.bin': 'firmware-esp32_spdif/bootloader/bootloader.bin',
-        'partition-table.bin': 'firmware-esp32_spdif/partition_table/partition-table.bin',
-        'firmware.bin': 'firmware-esp32_spdif/usb_audio_player.bin'
-      }
-    },
-    'esp32s3-spdif': { 
-      name: 'ESP32-S3 SPDIF',
+    'esp32s3-unified': {
+      name: 'ESP32-S3 Unified (USB/SPDIF)',
       manifestUrl: '/esp32s3-metadata.json',
       paths: {
-        'bootloader.bin': 'firmware-esp32s3_spdif/bootloader/bootloader.bin',
-        'partition-table.bin': 'firmware-esp32s3_spdif/partition_table/partition-table.bin',
-        'firmware.bin': 'firmware-esp32s3_spdif/usb_audio_player.bin'
-      }
-    },
-    'esp32s3-usb': { 
-      name: 'ESP32-S3 USB',
-      manifestUrl: '/esp32s3-metadata.json',
-      paths: {
-        'bootloader.bin': 'firmware-esp32s3_usb/bootloader/bootloader.bin',
-        'partition-table.bin': 'firmware-esp32s3_usb/partition_table/partition-table.bin',
-        'firmware.bin': 'firmware-esp32s3_usb/usb_audio_player.bin'
+        'bootloader.bin': 'firmware-esp32s3_unified/bootloader/bootloader.bin',
+        'partition-table.bin': 'firmware-esp32s3_unified/partition_table/partition-table.bin',
+        'firmware.bin': 'firmware-esp32s3_unified/usb_audio_player.bin'
       }
     }
   };
@@ -87,8 +69,8 @@ const ESP32Flasher = () => {
 
   const loadReleases = async () => {
     try {
-      const response = await fetch('https://netham45.org/esp32-scream-receiver/proxy.php?url=' + 
-        encodeURIComponent('https://api.github.com/repos/netham45/esp32-scream-receiver/releases'));
+      const response = await fetch('https://netham45.org/esp32-scream-receiver/proxy.php?url=' +
+        encodeURIComponent('https://api.github.com/repos/netham45/esp32-rtp/releases'));
       
       if (!response.ok) {
         throw new Error(`Failed to fetch releases: ${response.status} ${response.statusText}`);
@@ -122,10 +104,9 @@ const ESP32Flasher = () => {
     });
   };
 
-  // This would be implemented with JSZip in a real environment
+  // Download and prepare firmware for flashing
   const downloadFirmware = async (variantKey, releaseIndex) => {
-    // In a real implementation, this would download and process the ZIP file
-    // For now, we'll just simulate the behavior
+    const release = releases[releaseIndex];
     const variantId = `${variantKey}-${releaseIndex}`;
     const statusElement = document.getElementById(`${variantId}-status`);
     const downloadBtn = document.getElementById(`${variantId}-download`);
@@ -135,6 +116,22 @@ const ESP32Flasher = () => {
     if (downloadBtn) downloadBtn.disabled = true;
     
     try {
+      // Get the commit hash from the tag name
+      const commitHash = release.tag_name.replace('build-', '');
+      
+      // Find the unified firmware asset
+      const asset = release.assets.find(a =>
+        a.name === `esp32s3-unified-${commitHash}.zip`
+      );
+      
+      if (!asset) {
+        throw new Error('Firmware asset not found in release');
+      }
+      
+      // In a real implementation, this would download and process the ZIP file
+      // For now, we'll prepare the download URL
+      const downloadUrl = asset.browser_download_url;
+      
       // Simulate download delay
       await new Promise(resolve => setTimeout(resolve, 1500));
       
@@ -143,7 +140,7 @@ const ESP32Flasher = () => {
       if (installBtn) installBtn.style.display = 'block';
       
       toast({
-        title: 'Firmware downloaded',
+        title: 'Firmware ready',
         description: 'Ready to flash to your device',
         status: 'success',
         duration: 5000,
@@ -167,9 +164,10 @@ const ESP32Flasher = () => {
   return (
     <Container maxW="4xl" py={10}>
       <Box textAlign="center" mb={6}>
-        <Heading as="h1" mb={4}>ESP32 Scream Sender/Receiver Flasher</Heading>
+        <Heading as="h1" mb={4}>ESP32-S3 RTP Audio Flasher</Heading>
         <Text fontSize="lg" color="gray.600" maxW="800px" mx="auto">
-          Flash your ESP32 or ESP32-S3 device with Scream audio streaming firmware directly from your browser. 
+          Flash your ESP32-S3 device with RTP audio streaming firmware directly from your browser.
+          The unified binary supports both USB and SPDIF output modes.
         </Text>
       </Box>
       
@@ -199,14 +197,14 @@ const ESP32Flasher = () => {
                   <Heading as="h3" size="sm" mb={3}>Step-by-Step Flashing Guide</Heading>
                   <OrderedList spacing={4}>
                     <ListItem>
-                      <Text fontWeight="medium">Connect your ESP32 device to your computer via USB</Text>
+                      <Text fontWeight="medium">Connect your ESP32-S3 device to your computer via USB</Text>
                       <Text fontSize="sm" color="gray.600" mt={1}>
                         Use a data-capable USB cable. Some cables are charge-only and won't work for flashing.
                       </Text>
                     </ListItem>
                     
                     <ListItem>
-                      <Text fontWeight="medium">Put your ESP32 into Download Mode</Text>
+                      <Text fontWeight="medium">Put your ESP32-S3 into Download Mode</Text>
                       <Box 
                         bg={infoBg} 
                         p={3} 
@@ -235,9 +233,9 @@ const ESP32Flasher = () => {
                     </ListItem>
                     
                     <ListItem>
-                      <Text fontWeight="medium">Select and download your firmware variant</Text>
+                      <Text fontWeight="medium">Download the unified firmware</Text>
                       <Text fontSize="sm" color="gray.600" mt={1}>
-                        Choose the correct variant below based on your ESP32 model and desired output type.
+                        The unified firmware supports both USB and SPDIF output modes, configurable after flashing.
                       </Text>
                     </ListItem>
                     
@@ -269,8 +267,8 @@ const ESP32Flasher = () => {
                     <ListItem>
                       <Text fontWeight="medium">Connection Issues</Text>
                       <Text fontSize="sm">
-                        If your device isn't detected, try a different USB cable or port. Make sure 
-                        you have the correct drivers installed for your ESP32 board.
+                        If your device isn't detected, try a different USB cable or port. Make sure
+                        you have the correct drivers installed for your ESP32-S3 board.
                       </Text>
                     </ListItem>
                     <ListItem>
@@ -292,10 +290,11 @@ const ESP32Flasher = () => {
                 <Box mt={3}>
                   <Flex align="center" mb={2}>
                     <Icon as={FaInfoCircle} mr={2} color="blue.500" />
-                    <Text fontWeight="bold">USB Sender/Receiver</Text>
+                    <Text fontWeight="bold">Unified Firmware - USB/SPDIF Support</Text>
                   </Flex>
                   <Text fontSize="sm">
-                    <strong>Note:</strong> The USB Sender and Receiver are in the same image. Sender mode can be configured through the web interface once flashed.
+                    <strong>Note:</strong> The unified firmware supports both USB and SPDIF output modes.
+                    You can switch between modes and configure sender/receiver functionality through the web interface after flashing.
                   </Text>
                 </Box>
               </Stack>
@@ -384,7 +383,7 @@ const ESP32Flasher = () => {
                           onClick={() => downloadFirmware(key, index)}
                           size="sm"
                         >
-                          Download {commitHash}
+                          Download Firmware
                         </Button>
                         <Box 
                           id={`${key}-${index}-button-container`}

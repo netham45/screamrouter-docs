@@ -153,12 +153,12 @@ function Downloads() {
   
   const receiverDownloads = [
     {
-      title: 'ESP32 Receiver',
+      title: 'ESP32-S3 Receiver',
       icon: FaMicrochip,
-      description: 'ESP32 firmware that turns microcontrollers into wireless audio streaming devices with USB or SPDIF output.',
+      description: 'ESP32-S3 unified firmware that turns microcontrollers into wireless audio streaming devices with USB or SPDIF output.',
       version: '1.0.0',
       link: '/esp32-flasher',
-      githubLink: 'https://github.com/netham45/esp32-scream-receiver',
+      githubLink: 'https://github.com/netham45/esp32-rtp',
       docLink: '/docs/install-esp32',
       stable: true
     },
@@ -216,12 +216,12 @@ function Downloads() {
       stable: true
     },
     {
-      title: 'ESP32 USB Sender',
+      title: 'ESP32-S3 USB Sender',
       icon: FaMicrochip,
-      description: 'Part of the ESP32S3 USB Receiver. The ESP32-S3 can capture USB audio from PlayStation 4/5, Nintendo Switch, and other devices.',
+      description: 'Part of the ESP32-S3 unified firmware. The ESP32-S3 can capture USB audio from PlayStation 4/5, Nintendo Switch, and other devices.',
       version: '1.0.0',
       link: '/esp32-flasher',
-      githubLink: 'https://github.com/netham45/esp32-scream-receiver',
+      githubLink: 'https://github.com/netham45/esp32-rtp',
       docLink: '/docs/install-esp32',
       stable: true
     }
