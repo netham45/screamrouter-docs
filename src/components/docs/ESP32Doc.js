@@ -153,7 +153,7 @@ function ESP32Doc() {
           <TabPanels>
             <TabPanel>
               <OrderedList spacing={2}>
-                <ListItem>Visit <Code>https://netham45.org/esp32-rtp/</Code></ListItem>
+                <ListItem>Visit <Code>https://screamrouter.net/esp32-flasher/</Code></ListItem>
                 <ListItem>Connect your ESP32-S3 device to your computer via USB</ListItem>
                 <ListItem>
                   Download the unified firmware:
