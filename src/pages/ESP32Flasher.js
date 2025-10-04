@@ -150,13 +150,60 @@ const ESP32Flasher = () => {
       const zip = new JSZip();
       const zipContent = await zip.loadAsync(zipData);
       
-      // Extract the required files
-      const files = {
-        'bootloader.bin': await zipContent.file('build/bootloader/bootloader.bin')?.async('blob'),
-        'partition-table.bin': await zipContent.file('build/partition_table/partition-table.bin')?.async('blob'),
-        'ota_data_initial.bin': await zipContent.file('build/ota_data_initial.bin')?.async('blob'),
-        'esp32-rtp.bin': await zipContent.file('build/esp32-rtp.bin')?.async('blob')
+      // Debug: List all files in the ZIP
+      const zipFiles = [];
+      zipContent.forEach((relativePath, file) => {
+        zipFiles.push(relativePath);
+      });
+      console.log('Files in ZIP:', zipFiles);
+      
+      // Try different possible paths for the files
+      const possiblePaths = {
+        'bootloader.bin': [
+          'bootloader.bin',
+          'build/bootloader/bootloader.bin',
+          'bootloader/bootloader.bin',
+          'esp32s3-unified/bootloader.bin',
+          'esp32s3-unified/build/bootloader/bootloader.bin'
+        ],
+        'partition-table.bin': [
+          'partition-table.bin',
+          'build/partition_table/partition-table.bin',
+          'partition_table/partition-table.bin',
+          'esp32s3-unified/partition-table.bin',
+          'esp32s3-unified/build/partition_table/partition-table.bin'
+        ],
+        'ota_data_initial.bin': [
+          'ota_data_initial.bin',
+          'build/ota_data_initial.bin',
+          'esp32s3-unified/ota_data_initial.bin',
+          'esp32s3-unified/build/ota_data_initial.bin'
+        ],
+        'esp32-rtp.bin': [
+          'esp32-rtp.bin',
+          'build/esp32-rtp.bin',
+          'esp32s3-unified/esp32-rtp.bin',
+          'esp32s3-unified/build/esp32-rtp.bin'
+        ]
       };
+      
+      // Extract the required files by trying different paths
+      const files = {};
+      for (const [fileName, paths] of Object.entries(possiblePaths)) {
+        let found = false;
+        for (const path of paths) {
+          const file = zipContent.file(path);
+          if (file) {
+            files[fileName] = await file.async('blob');
+            console.log(`Found ${fileName} at ${path}`);
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          console.error(`Could not find ${fileName} in any of the expected paths:`, paths);
+        }
+      }
       
       // Check if all files were extracted successfully
       for (const [name, blob] of Object.entries(files)) {
