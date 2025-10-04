@@ -109,7 +109,7 @@ function ESP32Install() {
         <Heading as="h3" size="md" mb={3}>Firmware Installation</Heading>
         <Text mb={3} fontWeight="bold">Web Installer (Recommended)</Text>
         <OrderedList spacing={2} ml={5} mb={4}>
-          <ListItem>Visit <Link color="brand.500" href="https://screamrouter.net/esp32-flasher/" isExternal>https://screamrouter.net/esp32-flasher/</Link></ListItem>
+          <ListItem>Visit <Link color="brand.500" href="https://screamrouter.net/esp32-flasher/">https://screamrouter.net/esp32-flasher/</Link></ListItem>
           <ListItem>Connect your ESP32-S3 device to your computer via USB</ListItem>
           <ListItem>Download the unified firmware:
             <List ml={4} mt={1} spacing={1} styleType="circle">

@@ -25,6 +25,7 @@ cd $WORKDIR/$REPODIR
 cp $WORKDIR/$REPODIR/update_site.sh $WORKDIR/$REPODIR/update_cron.sh $WORKDIR
 chmod +x $WORKDIR/update_site.sh $WORKDIR/update_cron.sh
 npm install
+npx update-browserslist-db@latest
 npm run build
 cd $WORKDIR/$REPODIR/build
 rm -rf $PUBLICDIR/*
