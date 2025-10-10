@@ -33,7 +33,7 @@ import VNCDoc from '../components/docs/VNCDoc';
 import PluginsDoc from '../components/docs/PluginsDoc';
 import TechnicalDoc from '../components/docs/TechnicalDoc';
 import MP3StreamDoc from '../components/docs/MP3StreamDoc';
-import AutoconfigDoc from '../components/docs/AutoconfigDoc'; // Import the new component
+import AutoconfigDoc from '../components/docs/AutoconfigDoc';
 // New documentation components
 import ScreamSourceDoc from '../components/docs/ScreamSourceDoc';
 import RTPSourceDoc from '../components/docs/RTPSourceDoc';
@@ -42,7 +42,10 @@ import WindowsAppDoc from '../components/docs/WindowsAppDoc';
 import ESP32Doc from '../components/docs/ESP32Doc';
 import DockerDoc from '../components/docs/DockerDoc';
 import LinuxReceiverDoc from '../components/docs/LinuxReceiverDoc';
-import AndroidReceiverDoc from '../components/docs/AndroidReceiverDoc'; // Import the new component
+import AndroidReceiverDoc from '../components/docs/AndroidReceiverDoc';
+// New protocol documentation
+import WebRTCDoc from '../components/docs/WebRTCDoc';
+import SAPDoc from '../components/docs/SAPDoc';
 
 // Function to render appropriate content based on path
 function DocRouteContent() {
@@ -86,7 +89,7 @@ function DocRouteContent() {
       return <PluginsDoc />;
     case 'processor':
       return <TechnicalDoc />;
-    case 'autoconfig': // Add route for autoconfig
+    case 'autoconfig':
       return <AutoconfigDoc />;
     // New document routes
     case 'scream-source':
@@ -105,8 +108,13 @@ function DocRouteContent() {
       return <LinuxReceiverDoc />;
     case 'raspberry-pi':
       return <LinuxReceiverDoc />;
-    case 'android-receiver': // Add route for Android receiver
+    case 'android-receiver':
       return <AndroidReceiverDoc />;
+    // New protocol documentation routes
+    case 'webrtc':
+      return <WebRTCDoc />;
+    case 'sap':
+      return <SAPDoc />;
     default:
       return <DocsOverview />;
   }
@@ -186,10 +194,14 @@ function Documentation() {
                 { title: 'Windows Sender', path: 'install-windows-sender' },
                 { title: 'Windows Receiver', path: 'install-windows-receiver' },
                 { title: 'Linux/Raspberry Pi Receiver', path: 'install-linux-receiver' },
-                { title: 'Raspberry Pi Zero Sender', path: 'install-rpi-sender' },
+                { title: 'Raspberry Pi Zero RTP Sender', path: 'install-rpi-sender' },
                 { title: 'Docker Audio Sources', path: 'docker-sources' },
                 { title: 'RTP Audio Streaming', path: 'rtp-configuration' },
                 { title: 'MP3 Stream URLs', path: 'mp3-stream' }
+              ]},
+              { title: 'Audio Sources', children: [
+                { title: 'Scream Sources', path: 'scream-source' },
+                { title: 'RTP Sources', path: 'rtp-source' }
               ]},
               { title: 'User Guides', children: [
                 { title: 'Configuration', path: 'configuration' },
@@ -201,7 +213,12 @@ function Documentation() {
                 { title: 'Linux/Raspberry Pi', path: 'linux-receiver' },
                 { title: 'Docker', path: 'docker' },
                 { title: 'ESP32', path: 'esp32' },
-                { title: 'Android', path: 'android-receiver' } // Add link to sidebar
+                { title: 'Android', path: 'android-receiver' }
+              ]},
+              { title: 'Streaming Protocols', children: [
+                { title: 'WebRTC Streaming', path: 'webrtc' },
+                { title: 'SAP Discovery', path: 'sap' },
+                { title: 'mDNS Autoconfiguration', path: 'autoconfig' }
               ]},
               { title: 'Integration', children: [
                 { title: 'Home Assistant', path: 'homeassistant' },
@@ -209,8 +226,7 @@ function Documentation() {
               ]},
               { title: 'Advanced Topics', children: [
                 { title: 'Plugins', path: 'plugins' },
-                { title: 'Technical Details', path: 'processor' },
-                { title: 'Autoconfiguration (mDNS)', path: 'autoconfig' } // Add link to sidebar
+                { title: 'Technical Details', path: 'processor' }
               ]}
             ]} />
           </Box>

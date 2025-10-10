@@ -1,444 +1,359 @@
 import React from 'react';
 import {
   Box,
-  Heading,
   Container,
+  Heading,
   Text,
-  Button,
   SimpleGrid,
+  VStack,
+  HStack,
+  Button,
+  Link,
+  Badge,
   Icon,
   useColorModeValue,
-  Stack,
-  Flex,
+  Alert,
+  AlertIcon,
   Divider,
-  Badge,
-  Link,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-  IconButton
+  Code,
+  UnorderedList,
+  ListItem,
 } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
 import { 
+  FaDownload, 
+  FaGithub, 
+  FaDocker, 
   FaWindows, 
   FaLinux, 
-  FaRaspberryPi, 
-  FaDocker, 
-  FaDownload, 
-  FaGithub,
+  FaApple,
+  FaPython,
+  FaAndroid,
   FaMicrochip,
-  FaChrome,
-  FaHome,
-  FaBook,
-  FaAndroid // Import Android icon
+  FaRaspberryPi,
+  FaDesktop,
+  FaExternalLinkAlt
 } from 'react-icons/fa';
-import { Link as RouterLink } from 'react-router-dom';
-
-const DownloadCard = ({ title, icon, description, version, link, githubLink, docLink, stable }) => {
-  const cardBg = useColorModeValue('white', 'gray.700');
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
-  const docBtnColor = useColorModeValue('blue.500', 'blue.300');
-
-  return (
-    <Box
-      maxW={'330px'}
-      w={'full'}
-      bg={cardBg}
-      boxShadow={'md'}
-      rounded={'lg'}
-      p={6}
-      textAlign={'center'}
-      borderWidth="1px"
-      borderColor={borderColor}
-    >
-      <Icon as={icon} w={10} h={10} color="brand.500" mb={4} />
-      <Heading fontSize={'2xl'} fontFamily={'body'}>
-        {title}
-      </Heading>
-      {stable ? (
-        <Badge colorScheme="green" my={2}>
-          Stable
-        </Badge>
-      ) : (
-        <Badge colorScheme="orange" my={2}>
-          Beta
-        </Badge>
-      )}
-      <Text fontWeight={600} color={'gray.500'} mb={4}>
-        v{version}
-      </Text>
-      <Text
-        textAlign={'center'}
-        color={useColorModeValue('gray.700', 'gray.400')}
-        px={3}
-        height="100px"
-        overflow="hidden"
-      >
-        {description}
-      </Text>
-
-      <Stack mt={8} direction={'row'} spacing={2} justifyContent="center">
-        <IconButton
-          flex={1}
-          fontSize={'sm'}
-          rounded={'full'}
-          bg={'brand.500'}
-          color={'white'}
-          boxShadow={'md'}
-          _hover={{
-            bg: 'brand.600',
-          }}
-          _focus={{
-            bg: 'brand.600',
-          }}
-          as="a"
-          href={link}
-          icon={<FaDownload />}
-        />
-        <Button
-          flex={1}
-          fontSize={'sm'}
-          rounded={'full'}
-          variant="outline"
-          as="a"
-          href={githubLink}
-          target="_blank"
-          leftIcon={<FaGithub />}
-        >
-          Source
-        </Button>
-        {docLink && (
-          <Button
-            flex={1}
-            fontSize={'sm'}
-            rounded={'full'}
-            color={docBtnColor}
-            variant="outline"
-            as={RouterLink}
-            to={docLink}
-            leftIcon={<FaBook />}
-          >
-            Docs
-          </Button>
-        )}
-      </Stack>
-    </Box>
-  );
-};
 
 function Downloads() {
-  const mainDownloads = [
-    {
-      title: 'Docker',
-      icon: FaDocker,
-      description: 'Official Docker image for easy deployment in containerized environments with minimal setup.',
-      version: '1.0.0',
-      link: 'https://hub.docker.com/r/netham45/screamrouter',
-      githubLink: 'https://github.com/netham45/screamrouter',
-      docLink: '/docs/install-screamrouter',
-      stable: true
-    },
-    {
-      title: 'Debian/Linux',
-      icon: FaLinux,
-      description: 'ScreamRouter for Debian-based Linux distributions with web interface and command-line tools.',
-      version: '1.0.0',
-      link: 'https://github.com/netham45/screamrouter/releases/latest',
-      githubLink: 'https://github.com/netham45/screamrouter',
-      docLink: '/docs/install-screamrouter',
-      stable: true
-    }
-  ];
-  
-  const receiverDownloads = [
-    {
-      title: 'ESP32-S3 Receiver',
-      icon: FaMicrochip,
-      description: 'ESP32-S3 unified firmware that turns microcontrollers into wireless audio streaming devices with USB or SPDIF output.',
-      version: '1.0.0',
-      link: '/esp32-flasher',
-      githubLink: 'https://github.com/netham45/esp32-rtp',
-      docLink: '/docs/install-esp32',
-      stable: true
-    },
-    {
-      title: 'Windows Receiver',
-      icon: FaWindows,
-      description: 'Windows Scream Receiver for playing Scream audio streams through Windows audio devices.',
-      version: '1.0.0',
-      link: 'https://github.com/netham45/windows-scream-receiver/releases/latest',
-      githubLink: 'https://github.com/netham45/windows-scream-receiver',
-      docLink: '/docs/install-windows-receiver',
-      stable: true
-    },
-    {
-      title: 'Raspberry Pi Receiver',
-      icon: FaRaspberryPi,
-      description: 'Turn your Raspberry Pi into a networked audio receiver with PulseAudio, ALSA or JACK output.',
-      version: '1.0.0',
-      link: 'https://github.com/duncanthrax/scream/releases/latest',
-      githubLink: 'https://github.com/duncanthrax/scream',
-      docLink: '/docs/install-linux-receiver',
-      stable: true
-    },
-    { // Add Android Receiver details
-      title: 'Android Receiver',
-      icon: FaAndroid,
-      description: 'Android application that acts as a Scream receiver, playing audio streamed from ScreamRouter.',
-      version: 'Latest', // Assuming latest, adjust if specific version known
-      link: 'https://github.com/netham45/android-scream-receiver/releases/latest',
-      githubLink: 'https://github.com/netham45/android-scream-receiver',
-      docLink: '/docs/android-receiver',
-      stable: false // Assuming beta/new, adjust as needed
-    }
-  ];
-  
-  const senderDownloads = [
-    {
-      title: 'Windows Sender',
-      icon: FaWindows,
-      description: 'Windows Scream Sender for capturing audio from Windows and sending it to ScreamRouter.',
-      version: '1.0.0',
-      link: 'https://github.com/netham45/windows-scream-sender/releases/latest',
-      githubLink: 'https://github.com/netham45/windows-scream-sender',
-      docLink: '/docs/install-windows-sender',
-      stable: true
-    },
-    {
-      title: 'Raspberry Pi Zero Sender',
-      icon: FaRaspberryPi,
-      description: 'Turn a Raspberry Pi Zero into a USB audio device that forwards audio to ScreamRouter.',
-      version: '1.0.0',
-      link: 'https://github.com/netham45/screamsender/releases/latest',
-      githubLink: 'https://github.com/netham45/screamsender',
-      docLink: '/docs/install-rpi-sender',
-      stable: true
-    },
-    {
-      title: 'ESP32-S3 USB Sender',
-      icon: FaMicrochip,
-      description: 'Part of the ESP32-S3 unified firmware. The ESP32-S3 can capture USB audio from PlayStation 4/5, Nintendo Switch, and other devices.',
-      version: '1.0.0',
-      link: '/esp32-flasher',
-      githubLink: 'https://github.com/netham45/esp32-rtp',
-      docLink: '/docs/install-esp32',
-      stable: true
-    }
-  ];
+  const cardBg = useColorModeValue('white', 'gray.800');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
 
-  const addOns = [
-    {
-      title: 'Windows App',
-      icon: FaWindows,
-      description: 'Remote interface for ScreamRouter that sits in the notification area like a web browser. It provides a desktop interface with global media key support but is not the full ScreamRouter.',
-      version: '1.0.0',
-      link: 'https://github.com/netham45/screamrouter-windows-desktop/releases/latest',
-      githubLink: 'https://github.com/netham45/screamrouter-windows-desktop/',
-      docLink: '/docs/install-windows-app',
-      stable: true
-    },
-    {
-      title: 'Home Assistant Integration',
-      icon: FaHome,
-      description: 'Control ScreamRouter directly from Home Assistant with custom component integration.',
-      version: '1.0.0',
-      link: 'https://github.com/netham45/screamrouter_ha_component/releases/latest',
-      githubLink: 'https://github.com/netham45/screamrouter_ha_component',
-      docLink: '/docs/homeassistant',
-      stable: true
-    }
-  ];
+  const DownloadCard = ({ icon, title, description, version, links, badge, recommended }) => (
+    <Box
+      bg={cardBg}
+      p={6}
+      borderRadius="lg"
+      borderWidth="1px"
+      borderColor={recommended ? 'brand.500' : borderColor}
+      borderStyle={recommended ? 'solid' : 'solid'}
+      borderTopWidth={recommended ? '3px' : '1px'}
+      position="relative"
+      _hover={{ shadow: 'lg' }}
+      transition="all 0.3s"
+    >
+      {recommended && (
+        <Badge 
+          position="absolute" 
+          top="-12px" 
+          right="20px" 
+          colorScheme="brand"
+          px={3}
+          py={1}
+        >
+          RECOMMENDED
+        </Badge>
+      )}
+      <VStack align="stretch" spacing={4}>
+        <HStack>
+          <Icon as={icon} boxSize={8} color="brand.500" />
+          <Box flex="1">
+            <Heading size="md">{title}</Heading>
+            {version && <Text fontSize="sm" color="gray.500">{version}</Text>}
+          </Box>
+          {badge && <Badge colorScheme={badge.color}>{badge.text}</Badge>}
+        </HStack>
+        
+        <Text fontSize="sm">{description}</Text>
+        
+        <VStack spacing={2}>
+          {links.map((link, idx) => (
+            <Button
+              key={idx}
+              as={link.external ? Link : RouterLink}
+              to={!link.external ? link.url : undefined}
+              href={link.external ? link.url : undefined}
+              isExternal={link.external}
+              width="full"
+              size="sm"
+              colorScheme={link.primary ? 'brand' : 'gray'}
+              variant={link.primary ? 'solid' : 'outline'}
+              leftIcon={<FaDownload />}
+              rightIcon={link.external ? <FaExternalLinkAlt size={12} /> : undefined}
+            >
+              {link.text}
+            </Button>
+          ))}
+        </VStack>
+      </VStack>
+    </Box>
+  );
 
   return (
-    <Container maxW={'7xl'} py={10}>
-      <Stack spacing={10}>
+    <Container maxW="container.xl" py={10}>
+      <VStack spacing={8} align="stretch">
         <Box textAlign="center">
-          <Heading
-            lineHeight={1.1}
-            fontWeight={600}
-            fontSize={{ base: '2xl' }}
-          >
-            <Text as={'span'}>
-              Download ScreamRouter
-            </Text>
+          <Heading as="h1" size="2xl" mb={4}>
+            Downloads
           </Heading>
-          <Text
-            color={useColorModeValue('gray.500', 'gray.200')}
-            maxW={'3xl'}
-            mx="auto"
-            mt={5}
-          >
-            Download ScreamRouter and its components for your platform. All downloads are free and open source.
-            For installation instructions, please refer to the documentation.
+          <Text fontSize="lg" color="gray.600">
+            Get started with ScreamRouter using your preferred installation method
           </Text>
         </Box>
 
-        <Divider />
-        
+        <Alert status="success" borderRadius="md">
+          <AlertIcon />
+          <Box>
+            <Text fontWeight="bold">Quick Install with pip</Text>
+            <Code mt={1}>pip install screamrouter</Code>
+          </Box>
+        </Alert>
+
+        {/* Main ScreamRouter Installation */}
         <Box>
-          <Heading as="h2" size="lg" mb={6}>
-            ScreamRouter Server
-          </Heading>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10} justifyItems="center">
-            {mainDownloads.map((download, index) => (
-              <DownloadCard key={index} {...download} />
-            ))}
+          <Heading size="lg" mb={4}>ScreamRouter Server</Heading>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+            <DownloadCard
+              icon={FaPython}
+              title="Python pip"
+              description="Install ScreamRouter directly from PyPI. Supports Windows and Linux with Python 3.10+."
+              version="Latest"
+              recommended={true}
+              links={[
+                { text: 'pip install screamrouter', url: '/docs/install-screamrouter', primary: true },
+                { text: 'PyPI Page', url: 'https://pypi.org/project/screamrouter/', external: true }
+              ]}
+              badge={{ text: 'EASIEST', color: 'green' }}
+            />
+
+            <DownloadCard
+              icon={FaDocker}
+              title="Docker"
+              description="Run ScreamRouter in a container with automatic SSL certificates and isolation."
+              version="netham45/screamrouter:latest"
+              links={[
+                { text: 'Docker Setup Guide', url: '/docs/docker', primary: true },
+                { text: 'Docker Hub', url: 'https://hub.docker.com/r/netham45/screamrouter', external: true }
+              ]}
+              badge={{ text: 'ISOLATED', color: 'blue' }}
+            />
+
+            <DownloadCard
+              icon={FaGithub}
+              title="Source Code"
+              description="Build from source for development or customization. Requires build tools."
+              links={[
+                { text: 'GitHub Repository', url: 'https://github.com/netham45/screamrouter', external: true, primary: true }
+              ]}
+              badge={{ text: 'ADVANCED', color: 'purple' }}
+            />
           </SimpleGrid>
         </Box>
-        
-        <Divider />
-        
-        <Accordion allowToggle defaultIndex={[0]}>
-          <AccordionItem>
-            <h2>
-              <AccordionButton py={4}>
-                <Box flex="1" textAlign="left">
-                  <Heading as="h2" size="lg">
-                    Receivers (Audio Output Devices)
-                  </Heading>
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
-              <Text mb={6}>
-                Receivers are devices that can play audio from ScreamRouter. Install these on the devices where you want audio output.
-              </Text>
-              <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} justifyItems="center">
-                {receiverDownloads.map((download, index) => (
-                  <DownloadCard key={index} {...download} />
-                ))}
-              </SimpleGrid>
-            </AccordionPanel>
-          </AccordionItem>
 
-          <AccordionItem>
-            <h2>
-              <AccordionButton py={4}>
-                <Box flex="1" textAlign="left">
-                  <Heading as="h2" size="lg">
-                    Senders (Audio Input Devices)
-                  </Heading>
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
-              <Text mb={6}>
-                Senders are devices that capture audio and send it to ScreamRouter. Install these on the devices where you want audio input.
-              </Text>
-              <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} justifyItems="center">
-                {senderDownloads.map((download, index) => (
-                  <DownloadCard key={index} {...download} />
-                ))}
-              </SimpleGrid>
-            </AccordionPanel>
-          </AccordionItem>
-
-          <AccordionItem>
-            <h2>
-              <AccordionButton py={4}>
-                <Box flex="1" textAlign="left">
-                  <Heading as="h2" size="lg">
-                    Add-ons & Integrations
-                  </Heading>
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
-              <Text mb={6}>
-                Enhance your ScreamRouter setup with these add-ons and integrations.
-              </Text>
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10} justifyItems="center">
-                {addOns.map((download, index) => (
-                  <DownloadCard key={index} {...download} />
-                ))}
-              </SimpleGrid>
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
-        
         <Divider />
-        
+
+        {/* Audio Sources */}
         <Box>
-          <Heading as="h2" size="lg" mb={4}>
-            Configuration Guides
-          </Heading>
-          <Text mb={4}>
-            Set up audio streaming and sources with these configuration guides.
-          </Text>
+          <Heading size="lg" mb={4}>Audio Sources (Senders)</Heading>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+            <DownloadCard
+              icon={FaWindows}
+              title="Windows Desktop App"
+              description="Stream audio from Windows with system tray integration and auto-discovery."
+              version="v1.0"
+              links={[
+                { text: 'Download Installer', url: 'https://github.com/netham45/screamrouter/releases/latest', external: true, primary: true },
+                { text: 'Setup Guide', url: '/docs/install-windows-app' }
+              ]}
+              badge={{ text: 'WINDOWS', color: 'blue' }}
+            />
+
+            <DownloadCard
+              icon={FaWindows}
+              title="Scream (Windows Driver)"
+              description="Virtual audio driver for Windows. Routes all system audio to network."
+              links={[
+                { text: 'Download Scream', url: 'https://github.com/duncanthrax/scream/releases', external: true, primary: true },
+                { text: 'Installation Guide', url: '/docs/install-windows-sender' }
+              ]}
+            />
+
+            <DownloadCard
+              icon={FaRaspberryPi}
+              title="Raspberry Pi Zero RTP"
+              description="Turn a Pi Zero into a USB audio device that streams via RTP protocol."
+              links={[
+                { text: 'Setup Guide', url: '/docs/install-rpi-sender', primary: true }
+              ]}
+              badge={{ text: 'RTP', color: 'green' }}
+            />
+
+            <DownloadCard
+              icon={FaDocker}
+              title="Docker Audio Sources"
+              description="Run Spotify, Amazon Music, or Firefox in Docker containers."
+              links={[
+                { text: 'Docker Sources Guide', url: '/docs/docker-sources', primary: true }
+              ]}
+            />
+
+            <DownloadCard
+              icon={FaLinux}
+              title="PulseAudio/PipeWire"
+              description="Stream from Linux using RTP with SAP discovery support."
+              links={[
+                { text: 'RTP Configuration', url: '/docs/rtp-source', primary: true }
+              ]}
+              badge={{ text: 'LINUX', color: 'orange' }}
+            />
+          </SimpleGrid>
+        </Box>
+
+        <Divider />
+
+        {/* Audio Receivers */}
+        <Box>
+          <Heading size="lg" mb={4}>Audio Receivers (Sinks)</Heading>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+            <DownloadCard
+              icon={FaMicrochip}
+              title="ESP32 RTP Transceiver"
+              description="Versatile ESP32 device supporting USB/S/PDIF input/output with RTP streaming."
+              links={[
+                { text: 'Web Flasher', url: '/esp32-flasher', primary: true },
+                { text: 'Documentation', url: '/docs/esp32' }
+              ]}
+              badge={{ text: 'HARDWARE', color: 'teal' }}
+            />
+
+            <DownloadCard
+              icon={FaWindows}
+              title="Windows Receiver"
+              description="Play network audio on Windows PCs with auto-discovery support."
+              links={[
+                { text: 'Download', url: 'https://github.com/netham45/screamrouter-windows-receiver/releases', external: true, primary: true },
+                { text: 'Setup Guide', url: '/docs/install-windows-receiver' }
+              ]}
+            />
+
+            <DownloadCard
+              icon={FaLinux}
+              title="Linux/Raspberry Pi"
+              description="Lightweight receiver for Linux systems and Raspberry Pi devices."
+              links={[
+                { text: 'Installation Guide', url: '/docs/install-linux-receiver', primary: true }
+              ]}
+              badge={{ text: 'LINUX', color: 'orange' }}
+            />
+
+            <DownloadCard
+              icon={FaAndroid}
+              title="Android App"
+              description="Play ScreamRouter audio on Android phones and tablets."
+              links={[
+                { text: 'Google Play', url: 'https://play.google.com/store/apps/details?id=com.screamrouter', external: true, primary: true },
+                { text: 'Documentation', url: '/docs/android-receiver' }
+              ]}
+              badge={{ text: 'MOBILE', color: 'green' }}
+            />
+
+            <DownloadCard
+              icon={FaDesktop}
+              title="Web Browser"
+              description="Listen directly in Chrome, Firefox, Safari, or Edge using WebRTC."
+              links={[
+                { text: 'WebRTC Guide', url: '/docs/webrtc', primary: true }
+              ]}
+              badge={{ text: 'NO INSTALL', color: 'purple' }}
+            />
+          </SimpleGrid>
+        </Box>
+
+        <Divider />
+
+        {/* System Requirements */}
+        <Box bg={cardBg} p={6} borderRadius="lg" borderWidth="1px" borderColor={borderColor}>
+          <Heading size="md" mb={4}>System Requirements</Heading>
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
-            <Button 
-              size="lg" 
-              width="100%" 
-              leftIcon={<FaBook />} 
-              colorScheme="blue" 
-              variant="outline"
-              as={RouterLink}
-              to="/docs/rtp-configuration"
-            >
-              RTP Audio Streaming
-            </Button>
-            <Button 
-              size="lg" 
-              width="100%" 
-              leftIcon={<FaBook />} 
-              colorScheme="blue" 
-              variant="outline"
-              as={RouterLink}
-              to="/docs/configuration"
-            >
-              General Configuration
-            </Button>
+            <Box>
+              <Text fontWeight="bold" mb={2}>ScreamRouter Server (pip)</Text>
+              <UnorderedList fontSize="sm" spacing={1}>
+                <ListItem>Python 3.10 or higher</ListItem>
+                <ListItem>Windows 10/11 or Linux</ListItem>
+                <ListItem>2GB RAM minimum</ListItem>
+                <ListItem>Network connectivity</ListItem>
+              </UnorderedList>
+            </Box>
+            <Box>
+              <Text fontWeight="bold" mb={2}>ScreamRouter Server (Docker)</Text>
+              <UnorderedList fontSize="sm" spacing={1}>
+                <ListItem>Docker installed</ListItem>
+                <ListItem>Any OS with Docker support</ListItem>
+                <ListItem>Host networking for mDNS/multicast</ListItem>
+                <ListItem>2GB RAM minimum</ListItem>
+              </UnorderedList>
+            </Box>
           </SimpleGrid>
         </Box>
-        
-        <Divider />
-        
-        <Box>
-          <Heading as="h2" size="lg" mb={4}>
-            Docker Sources
-          </Heading>
-          <Text mb={4}>
-            These Docker containers run audio streaming applications and output audio as RTP streams, which can then be processed by ScreamRouter.
-          </Text>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
-            <Button 
-              size="lg" 
-              width="100%" 
-              leftIcon={<FaBook />} 
-              colorScheme="blue" 
-              variant="outline"
-              as={RouterLink}
-              to="/docs/docker-sources"
-            >
-              Docker Sources Guide
-            </Button>
-            <Link href="https://github.com/netham45/screamrouter-amazon-music-docker" isExternal>
-              <Button size="lg" width="100%" leftIcon={<FaDocker />} variant="outline">
-                Amazon Music Docker
-              </Button>
-            </Link>
-            <Link href="https://github.com/netham45/screamrouter-spotify-docker" isExternal>
-              <Button size="lg" width="100%" leftIcon={<FaDocker />} variant="outline">
-                Spotify Docker
-              </Button>
-            </Link>
-          </SimpleGrid>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mt={4}>
-            <Link href="https://github.com/netham45/screamrouter-firefox-docker" isExternal>
-              <Button size="lg" width="100%" leftIcon={<FaDocker />} variant="outline">
-                Firefox Docker
-              </Button>
-            </Link>
-          </SimpleGrid>
-        </Box>
-        
-        <Divider />
 
-      </Stack>
+        {/* Quick Start */}
+        <Alert status="info" borderRadius="md">
+          <AlertIcon />
+          <VStack align="start" spacing={2}>
+            <Text fontWeight="bold">Quick Start Guide</Text>
+            <Text fontSize="sm">
+              1. Install ScreamRouter server: <Code>pip install screamrouter</Code>
+            </Text>
+            <Text fontSize="sm">
+              2. Run it: <Code>screamrouter</Code>
+            </Text>
+            <Text fontSize="sm">
+              3. Access web interface at <Code>https://localhost</Code>
+            </Text>
+            <Text fontSize="sm">
+              4. Add audio sources and sinks from the interface
+            </Text>
+          </VStack>
+        </Alert>
+
+        {/* Links */}
+        <HStack justify="center" spacing={4}>
+          <Button
+            as={Link}
+            href="https://github.com/netham45/screamrouter"
+            isExternal
+            leftIcon={<FaGithub />}
+            variant="ghost"
+          >
+            GitHub
+          </Button>
+          <Button
+            as={RouterLink}
+            to="/docs"
+            variant="ghost"
+          >
+            Documentation
+          </Button>
+          <Button
+            as={Link}
+            href="https://discord.gg/screamrouter"
+            isExternal
+            variant="ghost"
+          >
+            Discord
+          </Button>
+        </HStack>
+      </VStack>
     </Container>
   );
 }

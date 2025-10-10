@@ -2,6 +2,7 @@
 ## * * * * * /root/update_cron.sh >> /var/log/git-update.log 2>&1
 
 # Change to the document directory
+mkdir -p /root/screamrouter-docs
 cd /root/screamrouter-docs || exit 1
 
 # Fetch the latest changes from the remote repository without modifying the local repo

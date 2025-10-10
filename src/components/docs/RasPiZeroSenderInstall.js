@@ -18,12 +18,23 @@ function RasPiZeroSenderInstall() {
 
   return (
     <Box>
-      <Heading as="h1" size="xl" mb={6}>Setting up ScreamSender on Raspberry Pi Zero</Heading>
+      <Heading as="h1" size="xl" mb={6}>Setting up RTP Sender on Raspberry Pi Zero</Heading>
       
       <Text mb={4}>
-        This guide provides instructions for setting up ScreamSender on a Raspberry Pi Zero to forward USB audio to ScreamRouter. 
-        This setup allows you to use a Raspberry Pi Zero as a USB audio device that can send audio to ScreamRouter over the network.
+        This guide provides instructions for setting up an RTP sender on a Raspberry Pi Zero to forward USB audio to ScreamRouter.
+        This setup allows you to use a Raspberry Pi Zero as a USB audio device that can send audio to ScreamRouter over the network using standard RTP protocol.
       </Text>
+
+      <Alert status="success" mb={4}>
+        <AlertIcon />
+        <Box>
+          <Text fontWeight="bold">Important: S16BE Format Support</Text>
+          <Text>
+            ScreamRouter now properly handles S16BE (big-endian) format, which is the standard for RTP audio.
+            The system automatically detects and converts between big-endian and little-endian as needed.
+          </Text>
+        </Box>
+      </Alert>
 
       <DocSection title="Prerequisites">
         <UnorderedList spacing={2}>
@@ -57,11 +68,13 @@ function RasPiZeroSenderInstall() {
         <Box bg={codeBg} p={3} borderRadius="md" fontFamily="mono" mb={4} overflowX="auto" maxHeight="500px" overflow="auto">
           #!/bin/bash<br /><br />
 
-          IP_ADDRESS=192.168.3.114<br />
-          PORT=16401<br />
+          # ScreamRouter server configuration<br />
+          IP_ADDRESS=192.168.3.114  # Your ScreamRouter IP<br />
+          PORT=4011                  # RTP port (or use multicast like 239.1.1.1)<br />
           SAMPLE_RATE=48000<br />
           BIT_DEPTH=16<br />
-          CHANNELS=2 # screamsender only supports two currently<br /><br />
+          CHANNELS=2<br />
+          FORMAT=S16_BE              # Use big-endian for RTP compliance<br /><br />
 
           cd /sys/kernel/config/usb_gadget/<br />
           mkdir -p audio_gadget<br />
@@ -97,7 +110,8 @@ function RasPiZeroSenderInstall() {
           ls /sys/class/udc {'>'} UDC<br /><br />
 
           sleep 2<br />
-          nohup bash -c "while x=x; do arecord -D hw:CARD=UAC1Gadget,DEV=0 -f dat 2{'>'}/var/log/arecord | screamsender -i $IP_ADDRESS -p $PORT -s $SAMPLE_RATE -b $BIT_DEPTH &{'>'} /var/log/arecord;done" &
+          # Use ffmpeg for proper RTP with S16BE format<br />
+          nohup bash -c "while true; do arecord -D hw:CARD=UAC1Gadget,DEV=0 -f S16_BE -r $SAMPLE_RATE -c $CHANNELS 2{'>'}/var/log/arecord | ffmpeg -f s16be -ar $SAMPLE_RATE -ac $CHANNELS -i - -acodec copy -f rtp rtp://$IP_ADDRESS:$PORT 2{'>'}/var/log/ffmpeg.log; done" &
         </Box>
 
         <Text mb={4}>
@@ -107,12 +121,17 @@ function RasPiZeroSenderInstall() {
           sudo chmod +x /usr/bin/usb_gadget_audio.sh
         </Box>
         
-        <Alert status="warning" mb={4}>
+        <Alert status="info" mb={4}>
           <AlertIcon />
-          <Text>
-            <strong>Note:</strong> Make sure to replace the <Code>IP_ADDRESS</Code> and <Code>PORT</Code> variables 
-            in the script with the appropriate values for your ScreamRouter setup.
-          </Text>
+          <Box>
+            <Text fontWeight="bold">Configuration Notes:</Text>
+            <UnorderedList mt={2} ml={4}>
+              <ListItem>Replace <Code>IP_ADDRESS</Code> with your ScreamRouter server IP</ListItem>
+              <ListItem>Use port 4011 for standard RTP, or configure as needed</ListItem>
+              <ListItem>For multicast, use an IP like <Code>239.1.1.1</Code></ListItem>
+              <ListItem>The script now uses S16BE format for proper RTP compliance</ListItem>
+            </UnorderedList>
+          </Box>
         </Alert>
       </DocSection>
 
@@ -128,16 +147,30 @@ function RasPiZeroSenderInstall() {
       <DocSection title="4. Install Dependencies">
         <Box bg={codeBg} p={3} borderRadius="md" fontFamily="mono" mb={4} overflowX="auto">
           sudo apt-get update<br />
-          sudo apt-get install -y g++ git
+          sudo apt-get install -y g++ git ffmpeg alsa-utils
         </Box>
       </DocSection>
 
-      <DocSection title="5. Download and Build ScreamSender">
+      <DocSection title="5. Alternative: Using Standard RTP Tools">
+        <Text mb={4}>
+          Instead of ScreamSender, you can use standard RTP streaming tools for better compatibility:
+        </Text>
+        
+        <Heading as="h4" size="sm" mb={2}>Option A: Using FFmpeg (Recommended)</Heading>
+        <Text mb={2}>FFmpeg is already installed in step 4 and provides standard RTP streaming:</Text>
         <Box bg={codeBg} p={3} borderRadius="md" fontFamily="mono" mb={4} overflowX="auto">
-          git clone https://github.com/netham45/screamsender.git<br />
-          cd screamsender<br />
-          ./build.sh<br />
-          sudo cp screamsender /usr/bin/screamsender
+          # The script above already uses ffmpeg for RTP streaming<br />
+          # No additional setup needed
+        </Box>
+
+        <Heading as="h4" size="sm" mb={2} mt={4}>Option B: Using GStreamer</Heading>
+        <Box bg={codeBg} p={3} borderRadius="md" fontFamily="mono" mb={4} overflowX="auto">
+          sudo apt-get install -y gstreamer1.0-tools gstreamer1.0-plugins-good<br /><br />
+          # Then modify the script to use:<br />
+          gst-launch-1.0 alsasrc device=hw:CARD=UAC1Gadget,DEV=0 ! \<br />
+            audioconvert ! audioresample ! \<br />
+            audio/x-raw,format=S16BE,rate=48000,channels=2 ! \<br />
+            rtpL16pay ! udpsink host=$IP_ADDRESS port=$PORT
         </Box>
       </DocSection>
 
@@ -153,17 +186,28 @@ function RasPiZeroSenderInstall() {
 
       <DocSection title="Integration with ScreamRouter">
         <Text mb={4}>
-          To use this ScreamSender with ScreamRouter:
+          To use this RTP sender with ScreamRouter:
         </Text>
         <OrderedList spacing={2}>
-          <ListItem>In ScreamRouter, add a new source with the IP address of your Raspberry Pi Zero.</ListItem>
-          <ListItem>Set the port to match the PORT value in the <Code>usb_gadget_audio.sh</Code> script (default is 16401).</ListItem>
-          <ListItem>Configure the audio format settings (bit depth, sample rate, channels) to match the values in the script.</ListItem>
+          <ListItem>In ScreamRouter, add a new RTP source (not Scream source)</ListItem>
+          <ListItem>Configure the source with:
+            <UnorderedList mt={2} ml={6}>
+              <ListItem>IP: Your Raspberry Pi Zero's IP or multicast address</ListItem>
+              <ListItem>Port: Match the PORT in the script (e.g., 4011)</ListItem>
+              <ListItem>Format: S16BE (16-bit big-endian)</ListItem>
+              <ListItem>Sample Rate: 48000 Hz</ListItem>
+              <ListItem>Channels: 2 (stereo)</ListItem>
+            </UnorderedList>
+          </ListItem>
+          <ListItem>Enable SAP discovery for automatic detection (optional)</ListItem>
         </OrderedList>
         
-        <Text mt={4}>
-          ScreamRouter will then be able to receive audio from your Raspberry Pi Zero USB audio device.
-        </Text>
+        <Alert status="success" mt={4}>
+          <AlertIcon />
+          <Text>
+            ScreamRouter will automatically handle the S16BE format and convert it as needed for your audio outputs!
+          </Text>
+        </Alert>
       </DocSection>
 
       <DocSection title="Troubleshooting">
@@ -204,10 +248,23 @@ function RasPiZeroSenderInstall() {
         
         <Alert status="info" mt={4}>
           <AlertIcon />
-          <Text>
-            This setup is ideal for adding wireless audio capabilities to gaming consoles like PlayStation 4/5 and Nintendo Switch, 
-            as well as other devices that only support wired audio output such as older game consoles, TVs, or computers without network connectivity.
-          </Text>
+          <Box>
+            <Text fontWeight="bold">Perfect for Gaming Consoles!</Text>
+            <Text mt={2}>
+              This setup is ideal for adding wireless audio capabilities to:
+            </Text>
+            <UnorderedList mt={2} ml={4}>
+              <ListItem>PlayStation 4/5</ListItem>
+              <ListItem>Nintendo Switch</ListItem>
+              <ListItem>Xbox consoles</ListItem>
+              <ListItem>Older game consoles</ListItem>
+              <ListItem>TVs without network audio</ListItem>
+              <ListItem>Computers without network connectivity</ListItem>
+            </UnorderedList>
+            <Text mt={2}>
+              The RTP protocol ensures compatibility with ScreamRouter's enhanced audio routing capabilities.
+            </Text>
+          </Box>
         </Alert>
       </DocSection>
     </Box>

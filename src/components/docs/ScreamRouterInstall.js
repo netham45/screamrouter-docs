@@ -17,10 +17,13 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   VStack,
+  UnorderedList,
+  Link,
+  Badge,
+  HStack,
 } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Link } from '@chakra-ui/react';
-import { FaChevronRight, FaDocker, FaLinux, FaWindows } from 'react-icons/fa';
+import { FaChevronRight, FaDocker, FaPython, FaWindows, FaLinux } from 'react-icons/fa';
 import DocSection from './DocSection';
 
 function ScreamRouterInstall() {
@@ -40,271 +43,274 @@ function ScreamRouterInstall() {
       </Heading>
       
       <Text fontSize="lg" mb={8}>
-        This guide provides instructions for installing the ScreamRouter system on various platforms.
-        Choose the tab that matches your preferred deployment method.
+        ScreamRouter can be installed using Python pip (recommended) or Docker. Choose the installation method that best suits your needs.
       </Text>
+
+      <Alert status="info" mb={6}>
+        <AlertIcon />
+        <Box>
+          <Text fontWeight="bold">Recommended: Python pip Installation</Text>
+          <Text>Simple installation via pip with support for Windows and Linux. Just run: <Code>pip install screamrouter</Code></Text>
+        </Box>
+      </Alert>
       
-      <Tabs variant="enclosed" colorScheme="brand">
+      <Tabs variant="enclosed" colorScheme="brand" defaultIndex={0}>
         <TabList>
-          <Tab>Docker (Linux)</Tab>
-          <Tab>Docker (Windows)</Tab>
-          <Tab>Linux</Tab>
+          <Tab><FaPython style={{ marginRight: '8px', display: 'inline' }} />Python pip (Recommended)</Tab>
+          <Tab><FaDocker style={{ marginRight: '8px', display: 'inline' }} />Docker</Tab>
         </TabList>
         
         <TabPanels>
           <TabPanel>
-            <DocSection title="Docker Installation (Linux)" icon={FaDocker}>
+            <DocSection title="Python pip Installation" icon={FaPython}>
               <Text mb={4}>
-                The recommended way to run ScreamRouter is using Docker, which provides an isolated and consistent environment.
+                ScreamRouter is available as a Python package on PyPI, supporting Windows and Linux systems.
               </Text>
+
+              <Alert status="info" mb={4}>
+                <AlertIcon />
+                <Box>
+                  <Text><strong>Python Requirements:</strong> Python 3.10 or higher</Text>
+                  <Text><strong>Supported OS:</strong> Windows, Linux</Text>
+                  <Text><strong>Package Name:</strong> screamrouter</Text>
+                </Box>
+              </Alert>
               
-              <Heading as="h3" size="md" mb={3}>Using the Official Docker Image</Heading>
-              <Code p={4} borderRadius="md" display="block" whiteSpace="pre" mb={6}>
+              <Heading as="h3" size="md" mb={3}>Installation</Heading>
+              <Code p={4} borderRadius="md" display="block" whiteSpace="pre" mb={4}>
+{`# Install ScreamRouter from PyPI
+pip install screamrouter
+
+# Or upgrade to the latest version
+pip install --upgrade screamrouter`}
+              </Code>
+
+              <Heading as="h3" size="md" mb={3}>Running ScreamRouter</Heading>
+              <Text mb={3}>After installation, run ScreamRouter using:</Text>
+              <Code p={4} borderRadius="md" display="block" whiteSpace="pre" mb={4}>
+{`# Run ScreamRouter
+screamrouter
+
+# Or with custom config path
+screamrouter --config /path/to/config.yaml`}
+              </Code>
+
+              <Heading as="h3" size="md" mb={3}>Build Requirements</Heading>
+              <Text mb={3}>If building from source or if pip needs to compile dependencies:</Text>
+              
+              <Tabs variant="soft-rounded" colorScheme="green" size="sm" mb={6}>
+                <TabList mb={4}>
+                  <Tab><FaLinux style={{ marginRight: '4px', display: 'inline' }} />Linux</Tab>
+                  <Tab><FaWindows style={{ marginRight: '4px', display: 'inline' }} />Windows</Tab>
+                </TabList>
+                
+                <TabPanels>
+                  <TabPanel px={0}>
+                    <UnorderedList spacing={2}>
+                      <ListItem>GCC or Clang compiler</ListItem>
+                      <ListItem>CMake {'>='} 3.14</ListItem>
+                      <ListItem>Python development headers</ListItem>
+                      <ListItem>OpenSSL development libraries</ListItem>
+                      <ListItem>Node.js and npm (for React frontend)</ListItem>
+                    </UnorderedList>
+                    <Code p={3} borderRadius="md" display="block" whiteSpace="pre" mt={3}>
+{`# Ubuntu/Debian
+sudo apt-get install build-essential cmake python3-dev libssl-dev nodejs npm
+
+# Fedora/RHEL
+sudo dnf install gcc gcc-c++ cmake python3-devel openssl-devel nodejs npm`}
+                    </Code>
+                  </TabPanel>
+                  
+                  <TabPanel px={0}>
+                    <UnorderedList spacing={2}>
+                      <ListItem>Microsoft Visual C++ 14.0 or greater</ListItem>
+                      <ListItem>CMake {'>='} 3.14</ListItem>
+                      <ListItem>Node.js and npm</ListItem>
+                    </UnorderedList>
+                    <Text mt={3}>
+                      Install Visual Studio Build Tools from{' '}
+                      <Link href="https://visualstudio.microsoft.com/downloads/" color="brand.500" isExternal>
+                        Microsoft's website
+                      </Link>
+                    </Text>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+
+              <Heading as="h3" size="md" mb={3}>Python Version Support</Heading>
+              <HStack spacing={2} mb={4}>
+                <Badge colorScheme="green">Python 3.10</Badge>
+                <Badge colorScheme="green">Python 3.11</Badge>
+                <Badge colorScheme="green">Python 3.12</Badge>
+                <Badge colorScheme="green">Python 3.13</Badge>
+                <Badge colorScheme="green">Python 3.14</Badge>
+              </HStack>
+
+              <Alert status="success" mb={4}>
+                <AlertIcon />
+                <Text>
+                  The pip package includes all necessary components including the C++ audio engine and React frontend.
+                </Text>
+              </Alert>
+
+              <Heading as="h3" size="md" mb={3}>Virtual Environment (Recommended)</Heading>
+              <Text mb={3}>It's recommended to use a virtual environment:</Text>
+              <Code p={4} borderRadius="md" display="block" whiteSpace="pre" mb={4}>
+{`# Create virtual environment
+python -m venv screamrouter-env
+
+# Activate (Linux/macOS)
+source screamrouter-env/bin/activate
+
+# Activate (Windows)
+screamrouter-env\\Scripts\\activate
+
+# Install ScreamRouter
+pip install screamrouter`}
+              </Code>
+            </DocSection>
+          </TabPanel>
+          
+          <TabPanel>
+            <DocSection title="Docker Installation" icon={FaDocker}>
+              <Text mb={4}>
+                Docker provides an isolated and consistent environment with automatic SSL certificate generation.
+              </Text>
+
+              <Alert status="success" mb={4}>
+                <AlertIcon />
+                <Text>Docker automatically generates SSL certificates if not provided!</Text>
+              </Alert>
+              
+              <Heading as="h3" size="md" mb={3}>Quick Start</Heading>
+              
+              <Tabs variant="soft-rounded" colorScheme="blue" size="sm" mb={6}>
+                <TabList mb={4}>
+                  <Tab>Linux/macOS (Host Network)</Tab>
+                  <Tab>Windows/Cross-Platform</Tab>
+                </TabList>
+                
+                <TabPanels>
+                  <TabPanel px={0}>
+                    <Text mb={3}>For Linux and macOS, use host networking for optimal performance:</Text>
+                    <Code p={4} borderRadius="md" display="block" whiteSpace="pre" mb={4}>
 {`docker run -d --network host \\
   -v ./config:/app/config \\
   -v ./logs:/app/logs \\
   -v ./cert:/app/cert \\
   --name screamrouter \\
   netham45/screamrouter:latest`}
-              </Code>
-              
-              <Text mb={4}>
-                This command pulls the latest image from Docker Hub and runs it with the appropriate volume mappings.
-              </Text>
-              
-              <Heading as="h3" size="md" mb={3}>Environment Variables</Heading>
-              <Text mb={2}>You can customize the container using environment variables:</Text>
-              <List spacing={2} styleType="disc" ml={5} mb={4}>
-                <ListItem><Code>TZ</Code>: Set the timezone (default: UTC)</ListItem>
-                <ListItem><Code>API_PORT</Code>: HTTPS port for the web interface (default: 443)</ListItem>
-                <ListItem><Code>HTTP_PORT</Code>: HTTP port for the web interface (default: 80)</ListItem>
-                <ListItem><Code>SCREAM_RECEIVER_PORT</Code>: Port to receive Scream audio data (default: 16401)</ListItem>
-              </List>
-              
-              <Heading as="h3" size="md" mb={3}>Managing the Container</Heading>
-              <List spacing={2} styleType="disc" ml={5}>
-                <ListItem>To view logs: <Code>docker logs screamrouter</Code></ListItem>
-                <ListItem>To stop the container: <Code>docker stop screamrouter</Code></ListItem>
-                <ListItem>To restart the container: <Code>docker restart screamrouter</Code></ListItem>
-              </List>
-            </DocSection>
-          </TabPanel>
-          
-          <TabPanel>
-            <DocSection title="Docker Installation (Windows)" icon={FaWindows}>
-              <Heading as="h3" size="md" mb={3}>Installing Docker on Windows</Heading>
-              <Text mb={4}>
-                To run ScreamRouter in Docker on Windows, you first need to install Docker Desktop for Windows.
-              </Text>
-              
-              <List spacing={3} styleType="decimal" ml={5} mb={6}>
-                <ListItem>
-                  <Text fontWeight="bold">Download Docker Desktop for Windows</Text>
-                  <Text>Visit the <Link href="https://www.docker.com/products/docker-desktop/" color="brand.500" isExternal>Docker Desktop download page</Link> and download the installer.</Text>
-                </ListItem>
-                
-                <ListItem>
-                  <Text fontWeight="bold">Install Docker Desktop</Text>
-                  <Text>Run the installer and follow the on-screen instructions. The installation will enable the required Windows features including WSL2 and Hyper-V (if needed).</Text>
-                </ListItem>
-                
-                <ListItem>
-                  <Text fontWeight="bold">Start Docker Desktop</Text>
-                  <Text>After installation, start Docker Desktop from the Start menu. You may need to restart your computer to complete the setup.</Text>
-                </ListItem>
-                
-                <ListItem>
-                  <Text fontWeight="bold">Verify Installation</Text>
-                  <Text>Open a command prompt or PowerShell window and run <Code>docker --version</Code> to verify that Docker is installed correctly.</Text>
-                </ListItem>
-              </List>
-              
-              <Text mb={4}>
-                On Windows, Docker's host networking has limitations. The port mapping approach works for basic functionality,
-                but multicast-based features won't work.
-              </Text>
-              
-              <Heading as="h3" size="md" mb={3}>Using Docker on Windows</Heading>
-              <Code p={4} borderRadius="md" display="block" whiteSpace="pre" mb={6}>
+                    </Code>
+                    <Alert status="info" mb={4}>
+                      <AlertIcon />
+                      <Text>Host networking is required for multicast and mDNS discovery features.</Text>
+                    </Alert>
+                  </TabPanel>
+                  
+                  <TabPanel px={0}>
+                    <Text mb={3}>For Windows or when host networking isn't available:</Text>
+                    <Code p={4} borderRadius="md" display="block" whiteSpace="pre" mb={4}>
 {`docker run -d \\
   -p 443:443 \\
-  -p 16401:16401/udp \\
-  -p 40001:40001/udp \\
-  -p 4011-4020:4011-4020/udp \\
+  -p 80:80 \\
+  -p 4010-4020:4010-4020/udp \\
+  -p 4011:4011/udp \\
   -v ./config:/app/config \\
   -v ./logs:/app/logs \\
   -v ./cert:/app/cert \\
   --name screamrouter \\
   netham45/screamrouter:latest`}
-              </Code>
-              
-              <Heading as="h3" size="md" mb={3}>Accessing ScreamRouter</Heading>
-              <Text mb={4}>
-                After starting the container, you can access the ScreamRouter web interface by opening
-                a web browser and navigating to <Code>https://localhost</Code>.
-              </Text>
-              
-              <Heading as="h3" size="md" mb={3}>Environment Variables</Heading>
-              <Text mb={2}>You can customize the container using environment variables:</Text>
-              <List spacing={2} styleType="disc" ml={5} mb={4}>
-                <ListItem><Code>TZ</Code>: Set the timezone (default: UTC)</ListItem>
-                <ListItem><Code>API_PORT</Code>: HTTPS port for the web interface (default: 443)</ListItem>
-                <ListItem><Code>HTTP_PORT</Code>: HTTP port for the web interface (default: 80)</ListItem>
-                <ListItem><Code>SCREAM_RECEIVER_PORT</Code>: Port to receive Scream audio data (default: 16401)</ListItem>
-              </List>
-            </DocSection>
-          </TabPanel>
-          
-          <TabPanel>
-            <DocSection title="Linux Installation" icon={FaLinux}>
-              <Text mb={4}>
-                This guide provides step-by-step instructions for installing ScreamRouter on various Linux distributions.
-              </Text>
-              
-              <Heading as="h3" size="md" mb={3}>Prerequisites</Heading>
-              <List spacing={2} styleType="disc" ml={5} mb={4}>
-                <ListItem>Linux distribution (Debian/Ubuntu, RHEL/CentOS/Rocky Linux, etc.)</ListItem>
-                <ListItem>Root or sudo access to your system</ListItem>
-                <ListItem>Internet connection for downloading packages</ListItem>
-              </List>
-              
-              <Heading as="h3" size="md" mb={3}>Distribution-Specific Instructions</Heading>
-              <Tabs variant="soft-rounded" colorScheme="brand" size="sm" mb={6}>
-                <TabList mb={4}>
-                  <Tab>Debian/Ubuntu</Tab>
-                  <Tab>RHEL/CentOS/Fedora</Tab>
-                </TabList>
-                
-                <TabPanels>
-                  <TabPanel px={0}>
-                    <Text fontWeight="bold" mb={2}>1. Install required dependencies:</Text>
-                    <Code p={4} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`sudo apt-get update -y
-sudo apt-get install -y libmp3lame0 libmp3lame-dev gcc git g++ python3 python3-pip python3-venv libtool pkg-config cmake curl`}
                     </Code>
-                    
-                    <Text fontWeight="bold" mb={2}>2. Install Node.js 20.x:</Text>
-                    <Code p={4} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# Verify installation
-node --version  # Should show v20.x.x
-npm --version`}
-                    </Code>
-                  </TabPanel>
-                  
-                  <TabPanel px={0}>
-                    <Text fontWeight="bold" mb={2}>1. Install required dependencies:</Text>
-                    <Code p={4} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`sudo yum update -y
-sudo yum install -y lame lame-devel gcc git gcc-c++ python3 python3-pip python3-virtualenv libtool pkgconfig cmake curl`}
-                    </Code>
-                    
-                    <Text fontWeight="bold" mb={2}>2. Install Node.js 20.x:</Text>
-                    <Code p={4} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
-sudo yum install -y nodejs
-
-# Verify installation
-node --version  # Should show v20.x.x
-npm --version`}
-                    </Code>
+                    <Alert status="warning" mb={4}>
+                      <AlertIcon />
+                      <Text>Port mapping mode doesn't support multicast/mDNS features. Manual configuration required.</Text>
+                    </Alert>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
 
-              <Heading as="h3" size="md" mb={3}>Installation Steps</Heading>
-              <List as="ol" styleType="decimal" spacing={3} ml={5} mb={4}>
-                <ListItem>
-                  <Text fontWeight="bold">Clone the ScreamRouter repository:</Text>
-                  <Code p={4} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`cd ~
-git clone --recurse-submodules -j8 https://github.com/netham45/screamrouter.git`}
-                  </Code>
-                </ListItem>
-                
-                <ListItem>
-                  <Text fontWeight="bold">Set up Python virtual environment and install requirements:</Text>
-                  <Code p={4} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`cd ~/screamrouter
-python3 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt`}
-                  </Code>
-                </ListItem>
-                
-                <ListItem>
-                  <Text fontWeight="bold">Build C utilities:</Text>
-                  <Code p={4} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`cd ~/screamrouter/c_utils
-./build.sh`}
-                  </Code>
-                </ListItem>
-                
-                <ListItem>
-                  <Text fontWeight="bold">Build the frontend (React UI):</Text>
-                  <Code p={4} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`cd ~/screamrouter/screamrouter-react
-npm install
-npm run build`}
-                  </Code>
-                </ListItem>
-                
-                <ListItem>
-                  <Text fontWeight="bold">Generate a certificate for HTTPS:</Text>
-                  <Code p={4} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`mkdir -p ~/screamrouter/cert
-openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 \\
-  -subj "/C=US/ST=State/L=City/O=Organization/CN=example.com" \\
-  -keyout ~/screamrouter/cert/privkey.pem -out ~/screamrouter/cert/cert.pem`}
-                  </Code>
-                </ListItem>
-                
-                <ListItem>
-                  <Text fontWeight="bold">Create a systemd service file:</Text>
-                  <Code p={4} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`sudo tee /etc/systemd/system/screamrouter.service > /dev/null << EOL
-[Unit]
-Description=ScreamRouter Audio Streaming Service
-After=network.target
+              <Heading as="h3" size="md" mb={3}>Docker Compose</Heading>
+              <Text mb={3}>For production deployments, use Docker Compose:</Text>
+              <Code p={4} borderRadius="md" display="block" whiteSpace="pre" mb={4}>
+{`version: '3'
+services:
+  screamrouter:
+    image: netham45/screamrouter:latest
+    container_name: screamrouter
+    network_mode: host  # Or use ports section for Windows
+    restart: unless-stopped
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+      - ./cert:/app/cert
+    environment:
+      - API_PORT=443
+      - HTTP_PORT=80
+      - CERTIFICATE=/app/cert/cert.pem
+      - CERTIFICATE_KEY=/app/cert/privkey.pem
+      - CONFIG_PATH=/app/config/config.yaml
+      - EQUALIZER_CONFIG_PATH=/app/config/equalizers.yaml`}
+              </Code>
 
-[Service]
-Type=simple
-User=$(whoami)
-WorkingDirectory=/home/$(whoami)/screamrouter
-ExecStart=/home/$(whoami)/screamrouter/venv/bin/python /home/$(whoami)/screamrouter/screamrouter.py
-Restart=on-failure
-RestartSec=5
-StandardOutput=journal
-StandardError=journal
+              <Heading as="h3" size="md" mb={3}>Environment Variables</Heading>
+              <UnorderedList spacing={2} mb={4}>
+                <ListItem><Code>API_PORT</Code> - HTTPS port (default: 443)</ListItem>
+                <ListItem><Code>HTTP_PORT</Code> - HTTP port (default: 80)</ListItem>
+                <ListItem><Code>CERTIFICATE</Code> - SSL certificate path</ListItem>
+                <ListItem><Code>CERTIFICATE_KEY</Code> - SSL private key path</ListItem>
+                <ListItem><Code>CONFIG_PATH</Code> - Configuration file path</ListItem>
+                <ListItem><Code>EQUALIZER_CONFIG_PATH</Code> - Equalizer settings path</ListItem>
+              </UnorderedList>
 
-[Install]
-WantedBy=multi-user.target
-EOL`}
-                  </Code>
-                </ListItem>
-                
-                <ListItem>
-                  <Text fontWeight="bold">Enable and start the service:</Text>
-                  <Code p={4} borderRadius="md" display="block" whiteSpace="pre" my={2}>
-{`sudo systemctl daemon-reload
-sudo systemctl enable screamrouter.service
-sudo systemctl start screamrouter.service
-sudo systemctl status screamrouter.service  # Check if the service is running properly`}
-                  </Code>
-                </ListItem>
-              </List>
-              
-              <Alert status="info" borderRadius="md" mb={4}>
+              <Alert status="info" mb={4}>
                 <AlertIcon />
-                After installation, you can access the ScreamRouter web interface by opening a web browser and navigating to the host over HTTPS.
+                <Text>
+                  <strong>Base Image:</strong> Python 3.12-trixie<br/>
+                  <strong>Auto-SSL:</strong> Certificates are auto-generated if not provided
+                </Text>
               </Alert>
             </DocSection>
           </TabPanel>
         </TabPanels>
       </Tabs>
+
+      <DocSection title="Post-Installation">
+        <Heading as="h3" size="md" mb={3}>Accessing the Web Interface</Heading>
+        <Text mb={4}>
+          After installation, access ScreamRouter at:
+        </Text>
+        <UnorderedList spacing={2} mb={4}>
+          <ListItem><Code>https://localhost</Code> - HTTPS (recommended)</ListItem>
+          <ListItem><Code>http://localhost</Code> - HTTP (redirects to HTTPS)</ListItem>
+        </UnorderedList>
+
+        <Alert status="warning" mb={4}>
+          <AlertIcon />
+          <Text>
+            On first access, you'll need to accept the self-signed certificate warning in your browser.
+          </Text>
+        </Alert>
+
+        <Heading as="h3" size="md" mb={3}>Next Steps</Heading>
+        <UnorderedList spacing={2}>
+          <ListItem>
+            <Link as={RouterLink} to="/docs/configuration" color="brand.500">
+              Configure your audio sources and sinks
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link as={RouterLink} to="/docs/ui" color="brand.500">
+              Learn about the web interface
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link as={RouterLink} to="/docs/autoconfig" color="brand.500">
+              Set up automatic device discovery via mDNS
+            </Link>
+          </ListItem>
+        </UnorderedList>
+      </DocSection>
     </Box>
   );
 }
