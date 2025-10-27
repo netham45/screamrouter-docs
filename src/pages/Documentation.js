@@ -46,6 +46,9 @@ import AndroidReceiverDoc from '../components/docs/AndroidReceiverDoc';
 // New protocol documentation
 import WebRTCDoc from '../components/docs/WebRTCDoc';
 import SAPDoc from '../components/docs/SAPDoc';
+import WindowsCompatibilityDoc from '../components/docs/WindowsCompatibilityDoc';
+import AlsaCompatibilityDoc from '../components/docs/AlsaCompatibilityDoc';
+import PulseAudioCompatibilityDoc from '../components/docs/PulseAudioCompatibilityDoc';
 
 // Function to render appropriate content based on path
 function DocRouteContent() {
@@ -110,6 +113,12 @@ function DocRouteContent() {
       return <LinuxReceiverDoc />;
     case 'android-receiver':
       return <AndroidReceiverDoc />;
+    case 'windows-compatibility':
+      return <WindowsCompatibilityDoc />;
+    case 'alsa-compatibility':
+      return <AlsaCompatibilityDoc />;
+    case 'pulseaudio-compatibility':
+      return <PulseAudioCompatibilityDoc />;
     // New protocol documentation routes
     case 'webrtc':
       return <WebRTCDoc />;
@@ -214,6 +223,11 @@ function Documentation() {
                 { title: 'Docker', path: 'docker' },
                 { title: 'ESP32', path: 'esp32' },
                 { title: 'Android', path: 'android-receiver' }
+              ]},
+              { title: 'Compatibility', children: [
+                { title: 'Windows Audio', path: 'windows-compatibility' },
+                { title: 'ALSA Audio', path: 'alsa-compatibility' },
+                { title: 'PulseAudio', path: 'pulseaudio-compatibility' }
               ]},
               { title: 'Streaming Protocols', children: [
                 { title: 'WebRTC Streaming', path: 'webrtc' },
