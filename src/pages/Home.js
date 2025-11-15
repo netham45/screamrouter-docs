@@ -16,7 +16,7 @@ import {
   Image,
   Link
 } from '@chakra-ui/react';
-import { FaDownload, FaBook, FaGithub, FaDiscord, FaVolumeUp, FaNetworkWired, FaDesktop, FaMicrochip, FaCheckCircle, FaAndroid } from 'react-icons/fa'; // Import FaAndroid
+import { FaDownload, FaWindows, FaLinux, FaBook, FaGithub, FaDiscord, FaVolumeUp, FaNetworkWired, FaDesktop, FaMicrochip, FaCheckCircle, FaAndroid } from 'react-icons/fa'; // Import FaAndroid
 import { Link as RouterLink } from 'react-router-dom';
 
 const Feature = ({ title, text, icon }) => {
@@ -49,6 +49,7 @@ function Home() {
           textAlign={'center'}
           spacing={{ base: 8, md: 14 }}
           py={{ base: 10, md: 20 }}
+          justifyContent="center"
         >
           <Heading
             fontWeight={600}
@@ -68,6 +69,10 @@ function Home() {
             <Link href="/images/screamrouter/ScreamRouter.png">
               <Image src="/images/screamrouter/ScreamRouter.png" alt="ScreamRouter Logo" mx="auto" maxW="80vh" />
             </Link>
+          </Box>
+          <Box my={6}>
+            <Heading as="h1">Creating an Audio Route</Heading>
+            <iframe style={{"width": "80vh", "height": "45vh"}} src="https://www.youtube.com/embed/CHLmpD-kiYk?si=EkYC4qfhF_O_H9NP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </Box>
           <Stack
             direction={'column'}
@@ -194,10 +199,6 @@ function Home() {
                   <ListIcon as={FaCheckCircle} color="brand.500" />
                   Create complex audio routing scenarios with fine-grained control
                 </ListItem>
-                <ListItem>
-                  <ListIcon as={FaCheckCircle} color="brand.500" />
-                  Extend with plugins for custom audio processing
-                </ListItem>
               </List>
             </Box>
           </SimpleGrid>
@@ -210,37 +211,20 @@ function Home() {
           {/* Adjust grid columns for better layout */}
           <SimpleGrid columns={{ base: 2, md: 3 }} spacing={10} textAlign="center" justifyItems="center"> 
             <Box>
-              <Icon as={FaDesktop} w={12} h={12} color="brand.500" mb={2} />
+              <Icon as={FaWindows} w={12} h={12} color="brand.500" mb={2} />
               <Text fontWeight="bold">Windows</Text>
-              <Text fontSize="sm">Desktop App for easy control</Text>
+              <Text fontSize="sm">WASAPI input/output/loopback support</Text>
             </Box>
             <Box>
-              <Icon as={FaDesktop} w={12} h={12} color="brand.500" mb={2} />
+              <Icon as={FaLinux} w={12} h={12} color="brand.500" mb={2} />
               <Text fontWeight="bold">Linux</Text>
-              <Text fontSize="sm">Server built on Linux</Text>
-            </Box>
-            <Box>
-              <Icon as={FaMicrochip} w={12} h={12} color="brand.500" mb={2} />
-              <Text fontWeight="bold">Raspberry Pi</Text>
-              <Text fontSize="sm">Sender/Reciever</Text>
-              <Text fontSize="sm">Sends from PC, PS4/PS5, Switch</Text>
+              <Text fontSize="sm">Alsa, PulseAudio support</Text>
             </Box>
             <Box>
               <Icon as={FaMicrochip} w={12} h={12} color="brand.500" mb={2} />
               <Text fontWeight="bold">ESP32</Text>
               <Text fontSize="sm">Sender/Reciever</Text>
               <Text fontSize="sm">Sends from PC, PS4/PS5, Switch</Text>
-            </Box>
-            <Box>
-              <Icon as={FaNetworkWired} w={12} h={12} color="brand.500" mb={2} />
-              <Text fontWeight="bold">Docker</Text>
-              <Text fontSize="sm">Runs on Linux or Windows with Docker Desktop</Text>
-            </Box>
-            {/* Add Android Platform Box */}
-            <Box>
-              <Icon as={FaAndroid} w={12} h={12} color="brand.500" mb={2} />
-              <Text fontWeight="bold">Android</Text>
-              <Text fontSize="sm">Receiver App</Text>
             </Box>
           </SimpleGrid>
         </Box>
