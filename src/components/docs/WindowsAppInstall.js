@@ -9,7 +9,10 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  Image
+  Image,
+  Code,
+  Alert,
+  AlertIcon
 } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import { FaChevronRight, FaWindows } from 'react-icons/fa';
@@ -36,11 +39,20 @@ function WindowsAppInstall() {
         all-in-one solution brings together everything you need for seamless audio control and streaming.
       </Text>
 
-      <Text fontSize="lg" mb={8}>
+      <Text fontSize="lg" mb={4}>
         Whether you're setting up a whole-home audio system, streaming music to multiple rooms, or just want an
         easier way to manage your audio routing, ScreamRouter Windows Desktop delivers a polished experience with
-        professional-grade features in a user-friendly package.
+        professional-grade features in a user-friendly package. The Windows desktop experience now ships inside the
+        main ScreamRouter installation, so a standard Windows install automatically includes the native interface,
+        ScreamSender, and ScreamReceiver tools.
       </Text>
+
+      <Alert status="success" mb={8}>
+        <AlertIcon />
+        Installing ScreamRouter on Windows—whether via `pip install screamrouter` or by downloading the
+        Windows standalone executable from the Downloads page—automatically enables the Windows Desktop
+        experience. No extra installers required.
+      </Alert>
       
       <DocSection title="The Ultimate Audio Control Center" icon={FaWindows}>
         <Box mb={8}>
@@ -52,7 +64,7 @@ function WindowsAppInstall() {
             mb={4}
           />
           <Text align="center" fontStyle="italic" mb={8}>
-            Experience seamless audio control with our sleek, modern interface
+            Experience seamless audio control with a sleek, modern interface
           </Text>
         </Box>
 
@@ -72,24 +84,21 @@ function WindowsAppInstall() {
           </ListItem>
         </List>
         
-        <Heading as="h3" size="md" mb={3}>Ready to Get Started?</Heading>
-        <Text mb={4}>
-          Setting up ScreamRouter Windows Desktop is quick and easy. Here's what you'll need:
-        </Text>
-        
-        <List spacing={2} styleType="disc" ml={5} mb={6}>
-          <ListItem><Text as="span" fontWeight="semibold">Windows 10 or later</Text> - Experience the full power of modern Windows</ListItem>
-          <ListItem><Text as="span" fontWeight="semibold">.NET 8.0 or later</Text> - For optimal performance and security</ListItem>
-          <ListItem><Text as="span" fontWeight="semibold">Microsoft Edge WebView2 Runtime</Text> - Automatically installed if needed</ListItem>
-          <ListItem><Text as="span" fontWeight="semibold">ScreamRouter server</Text> - Your audio routing command center</ListItem>
-        </List>
-        
         <Heading as="h3" size="md" mb={3}>Installation Steps</Heading>
         <List as="ol" styleType="decimal" spacing={2} ml={5} mb={4}>
-          <ListItem>Download the latest release from the <Link color="brand.500" href="https://github.com/netham45/screamrouter-windows-desktop/releases/latest" isExternal>ScreamRouter Windows App</Link> page</ListItem>
-          <ListItem>Run the installer and follow the on-screen instructions</ListItem>
-          <ListItem>After installation, ScreamRouter will appear in your Start Menu</ListItem>
-          <ListItem>On first launch, you'll need to configure the URL of your ScreamRouter server</ListItem>
+          <ListItem>
+            Install the main ScreamRouter package on Windows using your preferred method:
+            <List ml={5} spacing={1} styleType="disc">
+              <ListItem>
+                <Text as="span" fontWeight="semibold">pip:</Text> Run <Code>pip install screamrouter</Code> from an elevated PowerShell or Command Prompt session
+              </ListItem>
+              <ListItem>
+                <Text as="span" fontWeight="semibold">Standalone:</Text> Download the Windows executable from the <Link as={RouterLink} to="/downloads" color="brand.500">Downloads page</Link> and place it somewhere convenient
+              </ListItem>
+            </List>
+          </ListItem>
+          <ListItem>Launch ScreamRouter from the downloaded .exe or by running <Code>python -m screamrouter</Code> in your terminal</ListItem>
+          <ListItem>The Windows desktop window and tray icon appear automatically the first time ScreamRouter runs on Windows</ListItem>
         </List>
         
         <Heading as="h3" size="md" mb={3}>Professional-Grade Features</Heading>
@@ -112,80 +121,6 @@ function WindowsAppInstall() {
             </List>
           </ListItem>
           
-        </List>
-
-        <Heading as="h3" size="md" mb={3}>Per-Application Audio Control (Processes)</Heading>
-        <Text mb={4}>
-          Unlock fine-grained control over audio from individual applications on your Windows PC. The Processes feature lets ScreamRouter see and manage audio streams from specific apps like games, music players, or browsers separately.
-        </Text>
-
-        <Heading as="h4" size="sm" mb={2}>Why Use Processes?</Heading>
-        <List spacing={2} styleType="disc" ml={5} mb={4}>
-          <ListItem>
-            <Text><Text as="span" fontWeight="semibold">Fine-Grained Volume Control:</Text> Adjust volume for each app independently.</Text>
-          </ListItem>
-          <ListItem>
-            <Text><Text as="span" fontWeight="semibold">Separate Audio Settings:</Text> Apply unique EQ or delay settings per application.</Text>
-          </ListItem>
-          <ListItem>
-            <Text><Text as="span" fontWeight="semibold">Troubleshooting:</Text> Easily mute or adjust apps to isolate audio issues.</Text>
-          </ListItem>
-          <ListItem>
-            <Text><Text as="span" fontWeight="semibold">See What's Playing:</Text> Identify which applications are currently making sound.</Text>
-          </ListItem>
-          <ListItem>
-            <Text><Text as="span" fontWeight="semibold">Stable Routing:</Text> Preserve app-specific settings even when the app isn't running.</Text>
-          </ListItem>
-        </List>
-
-        <Heading as="h4" size="sm" mb={2}>How It Works</Heading>
-        <Text mb={2}>
-          When enabled, the ScreamRouter Windows app detects applications making sound and sends their audio streams individually to the ScreamRouter server. These appear as controllable "processes" under the main Windows source.
-        </Text>
-        <Text mb={4}>
-          You can find and manage these processes within the ScreamRouter interface (often via a "View Processes" option on the Windows source). Each process allows for independent mute, volume, EQ, and delay adjustments, similar to regular sources. Processes persist in ScreamRouter even after the application closes, retaining your settings for the next time it runs.
-        </Text>
-        
-        <Heading as="h3" size="md" mb={3}>Quick Setup Guide</Heading>
-        <Text mb={4}>
-          Get up and running in minutes with our streamlined setup process:
-        </Text>
-        
-        <Heading as="h4" size="sm" mb={2}>Basic Setup</Heading>
-        <List as="ol" styleType="decimal" spacing={2} ml={5} mb={4}>
-          <ListItem>Right-click the ScreamRouter icon in the system tray</ListItem>
-          <ListItem>Select "Settings" from the context menu</ListItem>
-          <ListItem>Enter the URL to your ScreamRouter server (e.g., "https://192.168.1.100")</ListItem>
-          <ListItem>Click "Save" to apply the settings</ListItem>
-        </List>
-
-        <Heading as="h4" size="sm" mb={2}>Audio Streaming Setup</Heading>
-        <List spacing={2} styleType="disc" ml={5} mb={4}>
-          <ListItem><Text fontWeight="semibold">ScreamSender Configuration:</Text>
-            <List ml={5} spacing={1}>
-              <ListItem>Enable audio transmission</ListItem>
-              <ListItem>Set destination IP</ListItem>
-              <ListItem>Configure port</ListItem>
-              <ListItem>Toggle multicast mode if needed</ListItem>
-            </List>
-          </ListItem>
-          <ListItem><Text fontWeight="semibold">ScreamReceiver Configuration:</Text>
-            <List ml={5} spacing={1}>
-              <ListItem>Enable audio reception</ListItem>
-              <ListItem>Set listening port</ListItem>
-            </List>
-          </ListItem>
-        </List>
-
-        <Heading as="h4" size="sm" mb={2}>Update Settings</Heading>
-        <List spacing={2} styleType="disc" ml={5} mb={4}>
-          <ListItem>Choose your preferred update mode:
-            <List ml={5} spacing={1}>
-              <ListItem>Do not check for updates</ListItem>
-              <ListItem>Notify when updates are available</ListItem>
-              <ListItem>Automatically download and install updates</ListItem>
-            </List>
-          </ListItem>
         </List>
       </DocSection>
     </Box>

@@ -200,9 +200,6 @@ function Documentation() {
                 { title: 'ScreamRouter', path: 'install-screamrouter' },
                 { title: 'Windows Desktop App', path: 'install-windows-app' },
                 { title: 'ESP32 Device', path: 'install-esp32' },
-                { title: 'Windows Sender', path: 'install-windows-sender' },
-                { title: 'Windows Receiver', path: 'install-windows-receiver' },
-                { title: 'Linux/Raspberry Pi Receiver', path: 'install-linux-receiver' },
                 { title: 'Raspberry Pi Zero RTP Sender', path: 'install-rpi-sender' },
                 { title: 'Docker Audio Sources', path: 'docker-sources' },
                 { title: 'RTP Audio Streaming', path: 'rtp-configuration' },
@@ -224,7 +221,7 @@ function Documentation() {
                 { title: 'ESP32', path: 'esp32' },
                 { title: 'Android', path: 'android-receiver' }
               ]},
-              { title: 'Compatibility', children: [
+              { title: 'System Audio', children: [
                 { title: 'Windows Audio', path: 'windows-compatibility' },
                 { title: 'ALSA Audio', path: 'alsa-compatibility' },
                 { title: 'PulseAudio', path: 'pulseaudio-compatibility' }

@@ -11,8 +11,10 @@ import {
   Image,
   Divider,
   OrderedList,
-  useColorModeValue
+  useColorModeValue,
+  Link
 } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
 import DocSection from './DocSection';
 
 function WindowsAppDoc() {
@@ -21,19 +23,21 @@ function WindowsAppDoc() {
   return (
     <Box>
       <Heading as="h1" size="xl" mb={6}>
-        ScreamRouter Windows Desktop App
+        ScreamRouter Windows Desktop
       </Heading>
       
       <Text fontSize="lg" mb={6}>
-        ScreamRouter Windows Desktop is a native application that provides a convenient way to access and control
-        your ScreamRouter system directly from your Windows desktop. It integrates with the system tray and provides
-        global media key support for an enhanced user experience.
+        ScreamRouter on Windows provides a menu in the notification area that allows for quick and easy control of all of your ScreamRouter instances
       </Text>
       
-      <Alert status="info" mb={6}>
+      <Text fontSize="lg" mb={4}>
+        The Windows desktop experience now ships inside the main ScreamRouter installation, so a standard Windows setup automatically includes the
+        native tray UI, per-application routing, ScreamSender, and ScreamReceiver.
+      </Text>
+      
+      <Alert status="success" mb={8}>
         <AlertIcon />
-        The Windows Desktop App is the recommended way to use ScreamRouter on Windows systems, providing better integration
-        with the operating system than the web interface alone.
+        Install ScreamRouter via <Code>pip install screamrouter</Code> or download the Windows standalone executable from the <Link as={RouterLink} to="/downloads" color="brand.500">Downloads page</Link>—both paths deliver the complete Windows Desktop experience with no extra installers.
       </Alert>
       
       <Image 
@@ -45,94 +49,34 @@ function WindowsAppDoc() {
         fallback={<Box height="300px" bg="gray.100" borderRadius="md" display="flex" alignItems="center" justifyContent="center">ScreamRouter Windows Desktop Screenshot</Box>}
       />
       
-      <DocSection title="Features">
-        <UnorderedList spacing={3} mb={4}>
-          <ListItem>
-            <Text fontWeight="semibold">Streamlined Web Interface</Text>
-            <Text>Opens the ScreamRouter UI in an embedded browser window with a native look and feel</Text>
-          </ListItem>
-          
-          <ListItem>
-            <Text fontWeight="semibold">System Tray Integration</Text>
-            <Text>Always accessible through a notification area icon with context menu</Text>
-          </ListItem>
-          
-          <ListItem>
-            <Text fontWeight="semibold">Global Media Key Support</Text>
-            <Text>Control your audio playback using your keyboard's media keys from anywhere</Text>
-          </ListItem>
-          
-          <ListItem>
-            <Text fontWeight="semibold">Start Menu Integration</Text>
-            <Text>Pin to Start Menu for quick access</Text>
-          </ListItem>
-          
-          <ListItem>
-            <Text fontWeight="semibold">Modern UI</Text>
-            <Text>Transparent background with blur effect for a sleek appearance</Text>
-          </ListItem>
-          
-          <ListItem>
-            <Text fontWeight="semibold">Auto-start Option</Text>
-            <Text>Configure to start automatically when Windows boots</Text>
-          </ListItem>
-
-          <ListItem>
-            <Text fontWeight="semibold">Integrated Audio Streaming</Text>
-            <UnorderedList ml={5} spacing={2}>
-              <ListItem>ScreamSender for transmitting audio with configurable destination IP/port and multicast support</ListItem>
-              <ListItem>ScreamReceiver for receiving audio streams on configurable ports</ListItem>
-            </UnorderedList>
-          </ListItem>
-
-          <ListItem>
-            <Text fontWeight="semibold">Secure Automatic Updates</Text>
-            <UnorderedList ml={5} spacing={2}>
-              <ListItem>Choose between manual, notify-only, or automatic updates</ListItem>
-              <ListItem>Secure update verification with MSI signature checking</ListItem>
-              <ListItem>Silent installation with automatic restart</ListItem>
-            </UnorderedList>
-          </ListItem>
-        </UnorderedList>
-      </DocSection>
-      
-      <DocSection title="System Requirements">
-        <UnorderedList spacing={2} mb={4}>
-          <ListItem><strong>Operating System:</strong> Windows 10 or later</ListItem>
-          <ListItem><strong>Runtime:</strong> .NET 8.0 or later</ListItem>
-          <ListItem><strong>Browser Component:</strong> Microsoft Edge WebView2 Runtime</ListItem>
-          <ListItem><strong>Disk Space:</strong> Approximately 50MB</ListItem>
-          <ListItem><strong>Network:</strong> Internet connection for accessing your ScreamRouter server</ListItem>
-        </UnorderedList>
-        
-        <Alert status="warning" mb={4}>
-          <AlertIcon />
-          The Microsoft Edge WebView2 Runtime is required and will be automatically installed if not already present on your system.
-        </Alert>
-      </DocSection>
-      
+    
       <DocSection title="Installation">
         <OrderedList spacing={3} mb={4}>
           <ListItem>
-            <Text>Download the latest installer from the <strong>Downloads</strong> page</Text>
+            <Text>Install the main ScreamRouter package on Windows using one of the following methods:</Text>
+            <UnorderedList spacing={1} ml={5}>
+              <ListItem><Code>pip install screamrouter</Code> for a Python-based install that stays up to date</ListItem>
+              <ListItem>Download the Windows standalone executable from the <Link as={RouterLink} to="/downloads" color="brand.500">Downloads page</Link></ListItem>
+            </UnorderedList>
           </ListItem>
-          
           <ListItem>
-            <Text>Run the installer executable (ScreamRouterDesktopSetup.exe)</Text>
+            <Text>Launch ScreamRouter from the Start Menu or by running <Code>screamrouter</Code> in PowerShell</Text>
           </ListItem>
-          
           <ListItem>
-            <Text>Follow the on-screen instructions to complete the installation</Text>
+            <Text>The native Windows window and tray icon start automatically when ScreamRouter runs</Text>
           </ListItem>
-          
           <ListItem>
-            <Text>After installation completes, the app will start automatically</Text>
+            <Text>Open Settings only if you need to point the desktop UI at a remote ScreamRouter server—the default is your local instance</Text>
           </ListItem>
         </OrderedList>
+
+        <Text mb={4}>
+          Need help installing or upgrading? Visit the <Link as={RouterLink} to="/docs/install-screamrouter" color="brand.500">ScreamRouter installation guide</Link>.
+        </Text>
         
-        <Alert status="info" mb={4}>
+        <Alert status="info">
           <AlertIcon />
-          You may need administrator privileges to install the application, depending on your Windows settings.
+          Some environments may require administrator privileges to install Python dependencies or run the standalone executable the first time.
         </Alert>
       </DocSection>
       
@@ -161,154 +105,6 @@ function WindowsAppDoc() {
             <Text>Use your keyboard's <strong>media keys</strong> to control playback of the currently selected source</Text>
           </ListItem>
         </UnorderedList>
-      </DocSection>
-      
-      <DocSection title="Audio Streaming">
-        <Text mb={4}>
-          The Windows Desktop app includes built-in ScreamSender and ScreamReceiver functionality:
-        </Text>
-
-        <Heading as="h3" size="md" mb={2}>
-          ScreamSender
-        </Heading>
-        <UnorderedList spacing={2} mb={4}>
-          <ListItem>Enable/disable audio transmission through the settings menu</ListItem>
-          <ListItem>Configure destination IP address and port for audio streaming</ListItem>
-          <ListItem>Optional multicast support for broadcasting to multiple receivers</ListItem>
-          <ListItem><strong>Per-Process Audio Streams:</strong> Transmit audio from individual applications as separate tagged streams, allowing ScreamRouter to manage them independently.</ListItem>
-          <ListItem>Runs as a background process when enabled</ListItem>
-        </UnorderedList>
-
-        <Heading as="h3" size="md" mb={2}>
-          ScreamReceiver
-        </Heading>
-        <UnorderedList spacing={2} mb={4}>
-          <ListItem>Enable/disable audio reception through the settings menu</ListItem>
-          <ListItem>Configure inbound port for receiving streams</ListItem>
-          <ListItem>Automatically manages the receiver process</ListItem>
-        </UnorderedList>
-
-        <Alert status="info" mb={4}>
-          <AlertIcon />
-          Audio streaming settings are saved and will persist between application restarts.
-        </Alert>
-      </DocSection>
-
-      <DocSection title="Configuration">
-        <Text mb={4}>
-          Configure the app through the Settings option in the tray menu:
-        </Text>
-        
-        <UnorderedList spacing={3} mb={4}>
-          <ListItem>
-            <Text><strong>ScreamRouter URL:</strong> Set the URL of your ScreamRouter server</Text>
-            <Text as="span" color="gray.600" fontSize="sm">Example: https://screamrouter.example.com or http://192.168.1.100:8080</Text>
-          </ListItem>
-          
-          <ListItem>
-            <Text><strong>Desktop Menu URL:</strong> Customize the URL for the desktop menu (advanced users)</Text>
-            <Text as="span" color="gray.600" fontSize="sm">Example: https://screamrouter.netham45.org/site/desktopmenu</Text>
-          </ListItem>
-          
-          <ListItem>
-            <Text><strong>Auto-start:</strong> Toggle whether the app starts automatically with Windows</Text>
-          </ListItem>
-          
-          <ListItem>
-            <Text><strong>Minimize to tray:</strong> Toggle whether the app minimizes to the system tray when closed</Text>
-          </ListItem>
-          
-          <ListItem>
-            <Text><strong>Interface transparency:</strong> Adjust the transparency level of the app window</Text>
-          </ListItem>
-
-          <ListItem>
-            <Text><strong>Audio Settings:</strong></Text>
-            <UnorderedList ml={5} spacing={2}>
-              <ListItem><strong>ScreamSender:</strong> Configure destination IP (default: 127.0.0.1), port (default: 16401), and multicast mode</ListItem>
-              <ListItem><strong>ScreamReceiver:</strong> Set listening port (default: 4010)</ListItem>
-            </UnorderedList>
-          </ListItem>
-
-          <ListItem>
-            <Text><strong>Update Settings:</strong></Text>
-            <UnorderedList ml={5} spacing={2}>
-              <ListItem>Do not check for updates</ListItem>
-              <ListItem>Notify when updates are available</ListItem>
-              <ListItem>Automatically download and install updates</ListItem>
-            </UnorderedList>
-          </ListItem>
-        </UnorderedList>
-        
-        <Alert status="info" mb={4}>
-          <AlertIcon />
-          All settings are saved automatically and will be remembered between application restarts.
-        </Alert>
-      </DocSection>
-      
-      <DocSection title="Troubleshooting">
-        <Heading as="h3" size="md" mb={2}>
-          App Doesn't Start
-        </Heading>
-        
-        <UnorderedList spacing={2} mb={4}>
-          <ListItem>Verify that the .NET 8.0 Runtime is installed</ListItem>
-          <ListItem>Check that the WebView2 Runtime is installed</ListItem>
-          <ListItem>Try running the app as administrator</ListItem>
-          <ListItem>Check the Windows Event Viewer for application errors</ListItem>
-        </UnorderedList>
-        
-        <Heading as="h3" size="md" mb={2} mt={4}>
-          Can't Connect to ScreamRouter
-        </Heading>
-        
-        <UnorderedList spacing={2} mb={4}>
-          <ListItem>Verify that the ScreamRouter URL is correct in the settings</ListItem>
-          <ListItem>Ensure that the ScreamRouter server is running and accessible</ListItem>
-          <ListItem>Check your network connection and firewall settings</ListItem>
-          <ListItem>Try accessing the ScreamRouter URL directly in a web browser</ListItem>
-        </UnorderedList>
-        
-        <Heading as="h3" size="md" mb={2} mt={4}>
-          Media Keys Not Working
-        </Heading>
-        
-        <UnorderedList spacing={2} mb={4}>
-          <ListItem>Ensure that a source with VNC is selected in the ScreamRouter interface</ListItem>
-          <ListItem>Check that the Command Receiver is properly set up on your audio source</ListItem>
-          <ListItem>Verify that no other application is capturing the media key events</ListItem>
-        </UnorderedList>
-      </DocSection>
-      
-      <DocSection title="Building From Source">
-        <Text mb={4}>
-          For developers who want to build the application from source:
-        </Text>
-        
-        <OrderedList spacing={2} mb={4}>
-          <ListItem>Clone the repository from GitHub</ListItem>
-          <ListItem>Open the solution in Visual Studio 2022 or later</ListItem>
-          <ListItem>Restore NuGet packages</ListItem>
-          <ListItem>Build the solution</ListItem>
-          <ListItem>Run the application</ListItem>
-        </OrderedList>
-        
-        <Box 
-          as="pre" 
-          p={4} 
-          bg={codeBlockBg} 
-          borderRadius="md" 
-          mb={4}
-          overflowX="auto"
-        >
-          <Code display="block" whiteSpace="pre">
-{`git clone https://github.com/yourusername/screamrouter-windows-desktop.git
-cd screamrouter-windows-desktop
-dotnet restore
-dotnet build
-dotnet run --project ScreamRouterDesktop`}
-          </Code>
-        </Box>
       </DocSection>
     </Box>
   );

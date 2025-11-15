@@ -121,31 +121,30 @@ function Downloads() {
 
         {/* Main ScreamRouter Installation */}
         <Box>
-          <Heading size="lg" mb={4}>ScreamRouter Server</Heading>
+          <Heading size="lg" mb={4}>ScreamRouter</Heading>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+            <DownloadCard
+              icon={FaWindows}
+              title="Standalone Executables"
+              description="Standalone Executables for ScreamRouter - No install required"
+              links={[
+                { text: 'Windows', url: 'https://github.com/netham45/screamrouter/releases/latest/download/ScreamRouter-windows-x64.exe', external: true, primary: true },
+                { text: 'Linux x64', url: 'https://github.com/netham45/screamrouter/releases/latest/download/ScreamRouter-linux-x86_64', external: true, primary: true },
+                { text: 'Linux ARM', url: 'https://github.com/netham45/screamrouter/releases/latest/download/ScreamRouter-linux-arm64', external: true, primary: true },
+              ]}
+              badge={{ text: 'EASIEST to start', color: 'green' }}
+            />
             <DownloadCard
               icon={FaPython}
               title="Python pip"
-              description="Install ScreamRouter directly from PyPI. Supports Windows and Linux with Python 3.10+."
+              description="Install ScreamRouter directly from PyPI. Supports Windows and Linux with Python 3.10+, can use pip to install updates"
               version="Latest"
               recommended={true}
               links={[
                 { text: 'pip install screamrouter', url: '/docs/install-screamrouter', primary: true },
                 { text: 'PyPI Page', url: 'https://pypi.org/project/screamrouter/', external: true }
               ]}
-              badge={{ text: 'EASIEST', color: 'green' }}
-            />
-
-            <DownloadCard
-              icon={FaDocker}
-              title="Docker"
-              description="Run ScreamRouter in a container with automatic SSL certificates and isolation."
-              version="netham45/screamrouter:latest"
-              links={[
-                { text: 'Docker Setup Guide', url: '/docs/docker', primary: true },
-                { text: 'Docker Hub', url: 'https://hub.docker.com/r/netham45/screamrouter', external: true }
-              ]}
-              badge={{ text: 'ISOLATED', color: 'blue' }}
+              badge={{ text: 'EASIEST To Update', color: 'green' }}
             />
 
             <DownloadCard
@@ -164,28 +163,17 @@ function Downloads() {
 
         {/* Audio Sources */}
         <Box>
-          <Heading size="lg" mb={4}>Audio Sources (Senders)</Heading>
+          <Heading size="lg" mb={4}>Audio Sources</Heading>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
             <DownloadCard
-              icon={FaWindows}
-              title="Windows Desktop App"
-              description="Stream audio from Windows with system tray integration and auto-discovery."
-              version="v1.0"
+              icon={FaMicrochip}
+              title="ESP32 RTP Transceiver"
+              description="Versatile ESP32 device supporting USB/S/PDIF input/output with RTP streaming."
               links={[
-                { text: 'Download Installer', url: 'https://github.com/netham45/screamrouter/releases/latest', external: true, primary: true },
-                { text: 'Setup Guide', url: '/docs/install-windows-app' }
+                { text: 'Web Flasher', url: '/esp32-flasher', primary: true },
+                { text: 'Documentation', url: '/docs/esp32' }
               ]}
-              badge={{ text: 'WINDOWS', color: 'blue' }}
-            />
-
-            <DownloadCard
-              icon={FaWindows}
-              title="Scream (Windows Driver)"
-              description="Virtual audio driver for Windows. Routes all system audio to network."
-              links={[
-                { text: 'Download Scream', url: 'https://github.com/duncanthrax/scream/releases', external: true, primary: true },
-                { text: 'Installation Guide', url: '/docs/install-windows-sender' }
-              ]}
+              badge={{ text: 'HARDWARE', color: 'teal' }}
             />
 
             <DownloadCard
@@ -208,13 +196,34 @@ function Downloads() {
             />
 
             <DownloadCard
-              icon={FaLinux}
-              title="PulseAudio/PipeWire"
-              description="Stream from Linux using RTP with SAP discovery support."
+              icon={FaDesktop}
+              title="RTP"
+              description="Stream from any RTP app with SAP discovery support."
               links={[
-                { text: 'RTP Configuration', url: '/docs/rtp-source', primary: true }
+                { text: 'PulseAudio/Pipewire Configuration', url: '/docs/rtp-source', primary: true }
               ]}
               badge={{ text: 'LINUX', color: 'orange' }}
+            />
+
+            <DownloadCard
+              icon={FaWindows}
+              title="Windows Loopback Capture"
+              description="Capture Windows audio from output devices with no drivers, just ScreamRouter"
+              links={[
+                { text: 'Windows System Audio Configuration', url: '/docs/windows-compatibility', primary: true }
+              ]}
+              badge={{ text: 'Windows', color: 'orange' }}
+            />
+
+            <DownloadCard
+              icon={FaDesktop}
+              title="System Devices"
+              description="Use ScreamRouter to capture from System Devices using Alsa or Windows WASAPI, or play back from apps by emulating PulseAudio"
+              links={[
+                { text: 'Windows System Audio Configuration', url: '/docs/windows-compatibility', primary: true },
+                { text: 'Alsa System Audio Configuration', url: '/docs/alsa-compatibility', primary: true },
+                { text: 'PulseAudio System Audio Configuration', url: '/docs/pulseaudio-compatibility', primary: true }
+              ]}
             />
           </SimpleGrid>
         </Box>
@@ -223,7 +232,7 @@ function Downloads() {
 
         {/* Audio Receivers */}
         <Box>
-          <Heading size="lg" mb={4}>Audio Receivers (Sinks)</Heading>
+          <Heading size="lg" mb={4}>Audio Receivers</Heading>
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
             <DownloadCard
               icon={FaMicrochip}
@@ -237,37 +246,6 @@ function Downloads() {
             />
 
             <DownloadCard
-              icon={FaWindows}
-              title="Windows Receiver"
-              description="Play network audio on Windows PCs with auto-discovery support."
-              links={[
-                { text: 'Download', url: 'https://github.com/netham45/screamrouter-windows-receiver/releases', external: true, primary: true },
-                { text: 'Setup Guide', url: '/docs/install-windows-receiver' }
-              ]}
-            />
-
-            <DownloadCard
-              icon={FaLinux}
-              title="Linux/Raspberry Pi"
-              description="Lightweight receiver for Linux systems and Raspberry Pi devices."
-              links={[
-                { text: 'Installation Guide', url: '/docs/install-linux-receiver', primary: true }
-              ]}
-              badge={{ text: 'LINUX', color: 'orange' }}
-            />
-
-            <DownloadCard
-              icon={FaAndroid}
-              title="Android App"
-              description="Play ScreamRouter audio on Android phones and tablets."
-              links={[
-                { text: 'Google Play', url: 'https://play.google.com/store/apps/details?id=com.screamrouter', external: true, primary: true },
-                { text: 'Documentation', url: '/docs/android-receiver' }
-              ]}
-              badge={{ text: 'MOBILE', color: 'green' }}
-            />
-
-            <DownloadCard
               icon={FaDesktop}
               title="Web Browser"
               description="Listen directly in Chrome, Firefox, Safari, or Edge using WebRTC."
@@ -276,35 +254,19 @@ function Downloads() {
               ]}
               badge={{ text: 'NO INSTALL', color: 'purple' }}
             />
+            <DownloadCard
+              icon={FaDesktop}
+              title="System Devices"
+              description="Play to another ScreamRouter instance configured as a sink and play back to System Devices using Alsa or Windows WASAPI"
+              links={[
+                { text: 'Windows System Audio Configuration', url: '/docs/windows-compatibility', primary: true },
+                { text: 'Alsa System Audio Configuration', url: '/docs/alsa-compatibility', primary: true }
+              ]}
+            />
           </SimpleGrid>
         </Box>
 
         <Divider />
-
-        {/* System Requirements */}
-        <Box bg={cardBg} p={6} borderRadius="lg" borderWidth="1px" borderColor={borderColor}>
-          <Heading size="md" mb={4}>System Requirements</Heading>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
-            <Box>
-              <Text fontWeight="bold" mb={2}>ScreamRouter Server (pip)</Text>
-              <UnorderedList fontSize="sm" spacing={1}>
-                <ListItem>Python 3.10 or higher</ListItem>
-                <ListItem>Windows 10/11 or Linux</ListItem>
-                <ListItem>2GB RAM minimum</ListItem>
-                <ListItem>Network connectivity</ListItem>
-              </UnorderedList>
-            </Box>
-            <Box>
-              <Text fontWeight="bold" mb={2}>ScreamRouter Server (Docker)</Text>
-              <UnorderedList fontSize="sm" spacing={1}>
-                <ListItem>Docker installed</ListItem>
-                <ListItem>Any OS with Docker support</ListItem>
-                <ListItem>Host networking for mDNS/multicast</ListItem>
-                <ListItem>2GB RAM minimum</ListItem>
-              </UnorderedList>
-            </Box>
-          </SimpleGrid>
-        </Box>
 
         {/* Quick Start */}
         <Alert status="info" borderRadius="md">
@@ -318,10 +280,10 @@ function Downloads() {
               2. Run it: <Code>screamrouter</Code>
             </Text>
             <Text fontSize="sm">
-              3. Access web interface at <Code>https://localhost</Code>
+              3. Access web interface at <Code>https://localhost</Code> or <Code>https://localhost:8443</Code>
             </Text>
             <Text fontSize="sm">
-              4. Add audio sources and sinks from the interface
+              4. Follow the tutorial and add audio sources and sinks from the interface
             </Text>
           </VStack>
         </Alert>
